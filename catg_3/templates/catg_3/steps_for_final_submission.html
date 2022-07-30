@@ -1,0 +1,115 @@
+{% extends 'base_v2.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+     html {
+        
+       
+      }
+     .card {
+      margin: 0 auto; /* Added */
+       /* Added */
+      margin-bottom: 10px; /* Added */
+      }
+
+     
+    
+</style>
+
+
+<body>
+
+ <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 90%;">
+          
+    <div class="card-body">
+        
+		<h2 style="text-align:center;font-size:30px;font-weight: bold;">
+			Endorsement and Submission
+				<a href="{% url 'catg_3:api-summary-view' user_id=request.user.id %}" class="previous" style="text-decoration:none;float:right;"><i class="fa fa-window-close" style="font-size:36px"></i></a>
+		</h2>
+		<hr>
+		<h2>
+			<div>
+				<div>Step 1: Click below to generate your endorsement form</div>
+				<br>
+				<div id="ltr" style="width:250px;float:left;">
+					<a type="button" style="font-weight:bolder;" href="{% url 'catg_3:endo-view' user_id=pk_var %}" target="_blank" class="btn btn-primary btn-block btn-lg">
+						Endorsemment Form</a>
+				</div>
+			</div>
+			<br><br>
+			
+			<div>
+				<div style="margin-top:20px;">Step 2: Upload the signed endorsement form in Google Drive and paste the link below</div>
+				<form action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{form.fwd_link}}
+					<!--<input name="fwd_link" class="form-control" placeholder="URL of signed scan copy of endorsement form"  id="id_fwd_link" style="width:40%;margin-top:20px;">-->
+				</form>
+			</div>
+			<br>
+			
+			<div id="final" style="display:none;">
+				<div style="margin-top:10px;">Step 3: Click below to submit your form</div>
+				<div id="ltr" style="width:200px;margin-left:35%;margin-top:20px;">
+					<a type="button" style="font-weight:bolder;" href="{% url 'catg_3:letter' user_id=pk_var %}" class="btn btn-success btn-block btn-lg">
+						Submit Application</a>
+				</div>
+				
+			</div>
+		
+		
+		
+       
+		
+    </div>
+ </div>
+
+
+
+
+<script type="text/javascript">
+
+
+		function check_fwd() {
+		
+			var f_link  = $('input[name=fwd_link]').val();
+			if (f_link != ''){				
+						
+				
+				$("#final").show("fast");
+				
+			}
+			else {
+				$("#final").hide("fast");
+			
+			}	
+			
+		
+		}
+
+    $(document).ready(function(){
+	
+			var f_link  = $('input[name=fwd_link]').val();
+			if (f_link != ''){			
+						
+				
+				$("#final").show("fast");
+				
+			}
+			else {
+				$("#final").hide("fast");
+			
+			}	
+				
+       
+	});
+ 	  
+</script>
+</body>
+
+{% endblock content %}
+    

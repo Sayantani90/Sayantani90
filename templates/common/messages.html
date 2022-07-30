@@ -1,0 +1,36 @@
+<style>
+    .center {
+        display: flex-box;
+        text-align: center;
+        width: 100%;
+        border: 3px solid #73AD21;
+        padding: 2px;
+        font-size: 15px;
+        float:left;
+      }
+
+      .errorlist {
+        list-style: none;
+      }
+    
+</style>
+
+<body>
+
+
+{% if messages %}
+       
+
+    {% for message in messages %}
+    
+        <div style="padding-left:80px;color:black;" class="alert-{{message.tags}} alert-info center" id="msg" role="alert">
+            <h4>{{ message }}</h4>
+        </div>
+     
+    {% endfor %} 
+
+
+{% endif %}
+  
+</body> 
+      

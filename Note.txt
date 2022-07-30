@@ -1,0 +1,24 @@
+prepopulate current_dsg with designation in class model
+prepopulate addr_perma with addr_corres in class model
+
+pip install django_globals
+
+MIDDLEWARE = (
+'django_globals.middleware.Global',
+)
+
+Views.py
+from django_globals import globals
+
+I would create a "config.py" file on the root directory. and put all global variables inside:
+
+x = 10
+my_string = ''
+at "view.py":
+
+from your_project import config
+
+def MyClass(reuqest):
+    y = config.x + 20
+    my_title = config.my_string
+...

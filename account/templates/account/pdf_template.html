@@ -1,0 +1,462 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+<style>
+        @page {
+            size: a4 portrait;
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 10pt; height: 950pt;
+            }
+            @frame content_frame {          /* Content Frame */
+                left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+        
+        th, td.box{
+            text-align:left;
+            vertical-align: middle;
+            font-size:12px;
+            text-decoration:none;
+            
+        }
+
+        .wd{
+            width: 10%;
+        }
+
+        .alert{            
+            color: red;
+        }
+        th.sub{
+            width:30%;
+        }
+        th.marks, th.year, td.marks, td.year{
+            width:11%;
+            text-align:center;
+        }
+
+        .content-loader tr td {
+            white-space: nowrap;
+        }
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+         }
+    </style> 
+    
+    
+
+
+    </head>
+    
+    <body>
+        <!-- Content for Static Frame 'header_frame' -->
+        <div id="header_content">
+           
+            <img src="http://localhost:8000/static/images/ju_logo.png" style="width:60px;text-align:center;">
+          
+            <h2 style="text-align:center">JADAVPUR UNIVERSITY
+               <br> KOLKATA - 700032               
+               <br> 
+            </h2>
+            <br>
+            
+        </div>
+
+        <h2 style="text-align:center;padding-top:7px;" >APPLICATION FORM FOR PROMOTION OF UNIVERSITY TEACHERS UNDER CAREER ADVANCEMENT SCHEME
+            
+        </h2>
+        
+        
+        
+
+
+    
+        <!-- Content for Static Frame 'footer_frame' -->
+        <div id="footer_content">(c) - page <pdf:pagenumber>
+            of <pdf:pagecount>
+        </div>
+        
+        <!-- HTML Content -->
+
+        <h1 style="margin-left:190px">From :
+            <br>Stage/Designation :&nbsp&nbsp{{from_dsg}}
+        </h1>
+        
+        <h1 style="margin-left:190px">To :
+            <br>Stage/Designation :&nbsp&nbsp{{to_dsg}}
+        </h1>
+        
+        <h2 style="text-align:center" >(Assistant Professor Stage 1 to Stage 2, Stage 2 to Stage 3),Assistant Professor (Stage 3) to Associate Professor
+            <br> (Stage 4), Associate Professor (Stage 4) to Professor/equivalent cadres (Stage 5). 
+          
+        </h2>
+        
+        <div style="background-color: blue;color:white;">
+        <h2 style="padding-top:7px;font-size:15px">PART A : GENERAL INFORMATION AND ACADEMIC BACKGROUND</h2>
+        </div>
+        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+
+            <tr>
+                <th class="box">1. Employee Id</th>
+                <td class="box">{{emp_id}}</td>
+            </tr>
+			<tr>
+                <th class="box">2. Full Name</th>
+                <td class="box">{{username}}</td>
+            </tr>
+            <tr>
+                <th class="box">3. Father's Name / Mother's Name</th>
+                <td class="box">{{parent}}</td>
+            </tr>
+            <tr>
+                <th class="box">4. Date of Birth</th>
+                <td class="box">{{dt_ob|date:"d-m-Y"}}</td>
+            </tr>
+            <tr>
+                <th class="box">5. Category</th>
+                <td class="box">{{catg}}				
+					{% if doc_link %}
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a class="box" href="{{doc_link}}" target="_top">Doc Link View</a>
+						
+						
+					{% endif %}	
+				</td>
+                
+            </tr>
+			<tr>
+				<th class="box">6. Differently Abled</th>
+				<td class="box" style="font-weight:bold;">
+					{% if is_pwd %}
+						Yes
+					{% else %}
+						No
+					{% endif %}	
+					{% if pwd_link %}
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a class="box" href="{{pwd_link}}" target="_top">Doc Link View</a>
+						
+						
+					{% endif %}	
+				</td>
+			</tr>
+            <tr>
+                <th class="box">7. Department/School</th>
+                <td class="box">{{Department}}</td>
+            </tr>
+            <tr>
+                <th class="box">8. Current designation</th>
+                <td class="box">{{Designation}}</td>
+            </tr>
+            <tr>
+                <th class="box">9. Academic Grade Pay (AGP)</th>
+                <td class="box">{{agp}}</td>
+            </tr>
+			<tr>
+                <th class="box">10. Highest Qualification</th>
+                <td class="box">{{highest_quali}}</td>
+            </tr>
+           <tr>
+                <th class="box">8. Date of last promotion , if any</th>
+                <td class="box">{{dt_last_promo|date:"d-m-Y"}}</td>
+            </tr>
+            <tr>
+                <th class="box">9. Date of eligibility for promotion</th>
+                <td class="box">{{dt_eligibility|date:"d-m-Y"}}</td>
+            </tr>
+            <tr>
+                <th class="box">10. Address for correspondence</th>
+                <td class="box">{{addr_corres|linebreaks}}</td>
+            </tr>
+            <tr>
+                <th class="box">11. Permanent Address (Same as above)</th>
+                <td class="box">{{addr_perm|linebreaks}}</td>
+            </tr>
+            <tr>
+                <th class="box">12. Mobile No.</th>
+                <td class="box">{{mobile}}</td>
+            </tr>
+            <tr>
+                <th class="box">13. E-mail Id</th>
+                <td class="box">{{email}}</td>
+            </tr>
+        </table>
+
+        <div>
+            <pdf:nextpage /> 
+        </div> 
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="background-color: blue;color:white;">
+            <h2 style="padding-top:7px;font-size:15px">Part B. Academic Qualifications :</h2>
+        </div>
+
+        <h1 style="text-align:left;font-size:15px"> A. Last Academic Qualifications (From graduation onwards excluding research degree(s)):
+        </h1>
+
+
+        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+           
+            <tr>
+                <th class="box">Degree/<BR>Diploma</th>
+                <th class="board">Name of the<BR>Board/<BR>University</th>
+                <th class="year">Year of <BR>Passing</th>
+                <th class="marks">(%)of<BR>Marks<BR>Obtained</th>	
+                <th class="box">Division/<BR>Class/Grade</th>	
+                <th class="sub">Subject(s)</th>
+                <th class="box wd">Doc Link</th>
+            </tr>
+            
+            {% for item in academy %}
+			  {% if item.degree %}
+                 <tr>
+                    <td class="box">{{item.degree|default_if_none:"Blank"}}</td>
+                    {% if item.name_board_university == None %}
+                        <td class="box alert">{{item.name_board_university|default_if_none:"Blank"}}</td>
+                    {% else %}
+                        <td class="box">{{item.name_board_university|default_if_none:"Blank"}}</td>
+                    {% endif %}
+                    {% if item.year_passing == None %}
+                        <td class="year box alert">{{item.year_passing|default_if_none:"Blank"}}</td>
+                    {% else %}
+                        <td class="year box">{{item.year_passing|default_if_none:"Blank"}}</td>
+                    {% endif %}
+                    <td class="marks box">{{item.marks_obtained|default_if_none:"Blank"}}%</td>
+                    <td class="box">{{item.div_class_grade|default_if_none:"Blank"}}</td>
+                    <td class="box">{{item.subject|default_if_none:"Blank"}}</td>
+					
+					{% if item.doc_link %}
+                        <td ><a class="box" href="{{item.doc_link}}" target="_blank">View</a></td>                        
+                    {% endif %}
+					
+                </tr>
+				{% endif %}
+                
+            {% endfor %} 
+            </table>
+            <br>
+            <h1 style="text-align:left;font-size:15px"> B.Research Degrees:
+            </h1>
+
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+     
+                <tr>
+                    <th class="box">Degree</th>
+                    <th class="box">Title of Dissertion/Thesis</th>
+                    <th class="box">Date of Award</th>
+                    <th class="box">Name of the University</th>
+                    <th class="box wd">Doc Link</th>
+                </tr>
+                
+      
+            {% for item in research %}
+				{% if item.degree %}
+                 <tr>
+                    <td class="box">{{item.degree|default_if_none:"Blank"}}</td>
+                    <td class="box">{{item.thesis|default_if_none:"Blank"}}</td>    
+                    <td class="box">{{item.dt_award|date:"d-m-Y"|default_if_none:"Blank"}}</td>
+                    <td class="box">{{item.institute|default_if_none:"Blank"}}</td>                  
+
+                    {% if item.url_link %}
+                        <td ><a class="box" href="{{item.url_link}}" target="_blank">View</a></td>
+                        
+                    {% endif %}
+                    
+                </tr> 
+				{% endif %}		
+            {% endfor %} 
+
+            </table> 
+
+            <div>
+                <pdf:nextpage /> 
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            
+
+            <div style="background-color: blue;color:white;">
+                <h2 style="padding-top:7px;font-size:15px">Part C. Professional Experience :</h2>
+            </div>
+    
+            <h1 style="text-align:left;font-size:15px"> A.Position(s) held Prior to Joining this University, if any:
+            </h1>
+
+            <table class="content-loader" width="100%" border="1" cellspacing="0" cellpadding="5">
+     
+                <tr>
+                    <th class="box">Desig-<br>nation</th>
+                    <th class="box">Name of Employer</th>
+                    <th class="box marks">Date of Joining</th>
+                    <th class="box marks">Date of Leaving</th>
+                    <th class="box marks">Gross Salary</th>
+                    <th class="box marks">AGP payable</th>
+                    <th class="box">Reason for Leaving</th>
+					<th class="box wd">Doc Link</th>					
+                    
+                </tr>
+                
+      
+            {% for item in prests %}
+				{% if item.designation %}
+                 <tr>
+                    <td class="box marks">{{item.designation|default_if_none:"Blank"}}</td>
+                    <td class="box">{{item.employer|default_if_none:"Blank"}}</td>    
+                    <td class="box marks">{{item.dt_join|date:"d-m-Y"|default_if_none:"Blank"}}</td>
+                    <td class="box marks">{{item.dt_leav|date:"d-m-Y"|default_if_none:"Blank"}}</td>
+                    <td class="box marks">{{item.gross_salary|default_if_none:"Blank"}}</td>    
+                    <td class="box marks">{{item.agp|default_if_none:"Blank"}}</td>    
+                    <td class="box">{{item.reason_leaving|default_if_none:"Blank"}}</td>
+					{% if item.url_link %}
+                        <td ><a class="box" href="{{item.url_link}}" target="_blank">View</a></td>                        
+                    {% endif %}					
+                 </tr>  
+				{% endif %}		
+            {% endfor %} 
+
+            </table> 
+
+            <h1 style="text-align:left;font-size:15px"> B.Posts held after Appointment at the University :
+            </h1>
+
+            <table class="content-loader" width="100%" border="1" cellspacing="0" cellpadding="5">
+     
+                <tr>
+                    <th class="box">Designation</th>
+                    <th class="box">Department/School</th>
+                    <th class="box">From date</th>
+                    <th class="box">To date</th>
+                    <th class="box" colspan="2">Pay Scale/Academic<br>
+                        Grade Pay (AGP) </th>
+					<th class="box wd">Doc Link</th>
+                </tr>
+                
+      
+            {% for item in curpost %}
+				{% if item.designation %}
+                 <tr>
+                    <td class="box">{{item.get_designation_display|default_if_none:"Blank"}}</td>
+                    <td class="box">{{item.department|default_if_none:"Blank"}}</td>    
+                    <td class="box marks">{{item.period_from|date:"d-m-Y"|default_if_none:"Blank"}}</td>
+                    <td class="box marks">{{item.period_to|date:"d-m-Y"|default_if_none:"Blank"}}</td>
+                    <td class="box marks">{{item.pay_scale|default_if_none:"Blank"}}</td>    
+                    <td class="box marks">{{item.get_agp_display|default_if_none:"Blank"}}</td>
+					{% if item.url_link %}
+                        <td ><a class="box" href="{{item.url_link}}" target="_blank">View</a></td>                        
+                    {% endif %}							
+                 </tr>
+				{% endif %} 
+            {% endfor %} 
+
+            </table> 
+
+            
+            <div>
+                <pdf:nextpage /> 
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <div style="background-color: blue;color:white;">
+                <h2 style="padding-top:7px;font-size:15px">Part D. Teaching Experience :</h2>
+            </div>
+    
+            <h1 style="text-align:left;font-size:15px"> A.Period of Teaching and / or Research Experience :
+            </h1>
+
+            <table class="content-loader" width="100%" border="1" cellspacing="0" cellpadding="5">
+     
+                <tr>
+                    <th class="box">Level of Classes</th>
+                    <th class="box">No. of Years</th>
+                </tr>
+                <tr>
+                    <th class="box">PG Classes</th>
+                    {% for item in teach %}
+                    <td class="box">{{item.pg_class}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th class="box">UG Classes</th>
+                    {% for item in teach %}
+                    <td class="box">{{item.ug_class}}</td>
+                    {% endfor %}
+                </tr>
+                
+            </table> 
+
+            <h1 style="text-align:left;font-size:15px"> B.Field(s) of Specialisation under the Subject/Discipline :
+            </h1>
+
+            <table class="content-loader" width="100%" border="1" cellspacing="0" cellpadding="5">
+                
+                <tr>
+                   
+                    {% for item in teach %}
+                    <td class="box">{{item.specialisation|linebreaks}}</td>
+                    {% endfor %}
+
+                </tr>
+          
+            </table> 
+
+             
+            <div>
+                <pdf:nextpage /> 
+            </div>
+
+
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <div style="background-color: blue;color:white;">
+                <h2 style="padding-top:7px;font-size:15px">Part E. Orientation / refresher Course(s) Attended :</h2>
+            </div>
+    
+            <h1 style="text-align:left;font-size:15px"> 18.Orientation / Refresher Course(s) Attended :
+            </h1>
+
+            <table class="content-loader" width="100%" border="1" cellspacing="0" cellpadding="5">
+     
+                 
+                <tr>
+                    <th class="box">Title of the Course</th>
+                    <th class="box">Place</th>
+                    <th class="box">Duration (No. of Weeks)</th>
+                    <th class="box">Period</th>
+                    <th class="box wd">Doc Link</th>
+                    
+                </tr>
+				{% for item in orient %}
+					{% if item.title %}					
+						<tr>
+							<td class="box">{{item.title|default_if_none:"Blank"|linebreaks}}</td>
+							<td class="box">{{item.place|default_if_none:"Blank"}}</td>    
+							<td class="box">{{item.duration|default_if_none:"Blank"}}</td>
+							<td class="box">{{item.period|default_if_none:"Blank"|linebreaks}}</td>
+							{% if item.url_link %}
+								<td ><a class="box" href="{{item.url_link}}" target="_blank">View</a></td>                        
+							{% endif %}	
+						</tr>					
+					{% endif %}	
+				{% endfor %}
+            </table> 
+           
+    </body>
+    </html>
