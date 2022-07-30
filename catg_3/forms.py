@@ -202,16 +202,16 @@ class Resch_consForm(forms.ModelForm):
             
                 
             # validating the proj_tag
-            if prj_amt :
-                if prj_tg == 'cons':
-                    if faculty_app == 'ARTS':
-                        if prj_amt < 2 :
-                            raise ValidationError(u'Check the min amount for "Arts"!')
-                    else:
-                        if prj_amt < 10 :
-                            raise ValidationError(u'Check the min amount other than Arts!')
-            else:
-                raise ValidationError('Amount Mobilized (Rs.in Lacs) Max(999.99) !')
+            #if prj_amt :
+                #if prj_tg == 'cons':
+                    #if faculty_app == 'ARTS':
+                        #if prj_amt < 2 :
+                            #raise ValidationError(u'Check the min amount for "Arts"!')
+                    #else:
+                        #if prj_amt < 10 :
+                            #raise ValidationError(u'Check the min amount other than Arts!')
+            #else:
+                #raise ValidationError('Amount Mobilized (Rs.in Lacs) Max(999.99) !')
                 
                 
            
@@ -253,11 +253,26 @@ class Prj_outcmForm(forms.ModelForm):
              'prj_url'      : widgets.TextInput(attrs={'class':'form-control','style': 'width:600px;height:3em;'}),
         
         
-        }  
-               
-  
-        def __init__(self, *args, **kwargs):
+        }
+        
+    def clean(self):
+            cleaned_data = super(Prj_outcmForm, self).clean()
+            prj_type = cleaned_data.get('prj_type')
+            ptnt_sts = cleaned_data.get('ptnt_sts')
+            prj_lvl = cleaned_data.get('prj_lvl')
+            
+            if prj_type == 'PTNT':
+                if not cleaned_data['ptnt_sts']:
+                    raise forms.ValidationError(u'Please select Patent Status!')           
+                    
+            if prj_lvl == "None":
+                raise forms.ValidationError(u'Please select Lavel!')
+            
+            
+            
+    def __init__(self, *args, **kwargs):
             super(Prj_outcmForm,self).__init__(*args, **kwargs)
+            self.fields['prj_lvl'].required = True
             
 class Resch_guideForm(forms.ModelForm):
      

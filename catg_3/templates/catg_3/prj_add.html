@@ -122,36 +122,65 @@
 
 <script type="text/javascript">
 
-
-
 $( document ).ready(function() {
 	var role = $('select#id_prj_type').val();
-    
+	
+    $('#id_prj_lvl option').remove(); // remove all options
 
-    if (role == 'PTNT') {
-       $("#other").show("fast")       
+   if (role == 'PTNT') {
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');		
+		
+        $("#other").show("fast")       
     }
-    else {
-      $("#other").hide("fast")     
+    else if (role == 'MPD'){		
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');				
+		$("#id_prj_lvl").append('<option value="CNGV">National (Central Govt.)</option>');
+		$("#id_prj_lvl").append('<option value="STGV">State Govt.</option>');
+		$("#id_prj_lvl").append('<option value="LCL">Local</option>');
+		
+        $("#other").hide("fast")     
     }
-       
+	else {
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');
+		
+		$("#other").hide("fast")
+	}
+   
 });
 
 function check_other() {    
           
     var role = $('select#id_prj_type').val();
-    
-
+    var lvl  = $('#id_prj_lvl').val();
+	
+	$('#id_prj_lvl option').remove();
+	
     if (role == 'PTNT') {
-       $("#other").show("fast")       
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');		
+		
+        $("#other").show("fast")       
     }
-    else {
-      $("#other").hide("fast")     
+    else if (role == 'MPD'){		
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');				
+		$("#id_prj_lvl").append('<option value="CNGV">National (Central Govt.)</option>');
+		$("#id_prj_lvl").append('<option value="STGV">State Govt.</option>');
+		$("#id_prj_lvl").append('<option value="LCL">Local</option>');
+		
+        $("#other").hide("fast")     
     }
+	else {
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');
+		
+		$("#other").hide("fast")
+	}
    
     
+    
   }
-
 
 
 $("form").submit(function(){    

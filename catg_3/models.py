@@ -157,8 +157,8 @@ class Prj_outcm(models.Model):
         ('INTR', 'International'),
         ('NATL', 'National'),
         ('LCL', 'Local'),  
-        ('CNGV', 'Central Govt'), 
-        ('STGV', 'State Govt'),     
+        ('CNGV', 'National (Central Govt.)'), 
+        ('STGV', 'State Govt.'),     
     )
     prj_lvl                  = models.CharField(verbose_name='Level',max_length=50, choices=LEVEL_CHOICES, null=True, blank=True)
     ref_no                   = models.CharField(verbose_name='Document No./Patent No/Other reference no',max_length=100,null=True, blank=True)

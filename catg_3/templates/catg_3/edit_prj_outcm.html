@@ -62,7 +62,7 @@
 
     {% csrf_token %}
 
-    <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 60%;height:100%">
+    <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 70%;height:100%">
         {% comment %} <img class="card-img-top" src="..." alt="Card image cap"> {% endcomment %}
         
           {% if form1.errors %}
@@ -109,7 +109,7 @@
                     <td>{{form1.ptnt_sts}}</td>
                  </tr>
                 <tr>
-                    <th VALIGN=middle>Upload Grant Letter<span>*</span></th>
+                    <th VALIGN=middle>Upload document link<span>*</span></th>
                     <td>{{form1.prj_url}}</td>
                 </tr>
                 <tr>
@@ -134,29 +134,63 @@
 
 $( document ).ready(function() {
 	var role = $('select#id_prj_type').val();
-    
-
-    if (role == 'PTNT') {
-       $("#other").show("fast")       
+	
+    $('#id_prj_lvl option').remove(); // remove all options
+	$("#id_prj_lvl").append('<option value="None">Select</option>');
+	
+   if (role == 'PTNT') {
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');		
+		
+        $("#other").show("fast")       
     }
-    else {
-      $("#other").hide("fast")     
+    else if (role == 'MPD'){		
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');				
+		$("#id_prj_lvl").append('<option value="CNGV">National (Central Govt.)</option>');
+		$("#id_prj_lvl").append('<option value="STGV">State Govt.</option>');
+		$("#id_prj_lvl").append('<option value="LCL">Local</option>');
+		
+        $("#other").hide("fast")     
     }
-       
+	else {
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');
+		
+		$("#other").hide("fast")
+	}
+   
 });
 
 function check_other() {    
           
     var role = $('select#id_prj_type').val();
-    
-
-    if (role == 'PTNT') {
-       $("#other").show("fast")       
+    var lvl  = $('#id_prj_lvl').val();
+	
+	$('#id_prj_lvl option').remove();
+	$("#id_prj_lvl").append('<option value="None">Select</option>');
+	
+    if (role == 'PTNT') {	
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');		
+		
+        $("#other").show("fast")       
     }
-    else {
-      $("#other").hide("fast")     
+    else if (role == 'MPD'){		
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');				
+		$("#id_prj_lvl").append('<option value="CNGV">National (Central Govt.)</option>');
+		$("#id_prj_lvl").append('<option value="STGV">State Govt.</option>');
+		$("#id_prj_lvl").append('<option value="LCL">Local</option>');
+		
+        $("#other").hide("fast")     
     }
+	else {
+		$("#id_prj_lvl").append('<option value="INTR">International</option>');
+		$("#id_prj_lvl").append('<option value="NATL">National</option>');
+		
+		$("#other").hide("fast")
+	}
    
+    
     
   }
 

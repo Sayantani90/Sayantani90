@@ -184,6 +184,7 @@ class Account(AbstractBaseUser,PermissionsMixin):
 	is_pwd                  = models.BooleanField(default=False)
 	pwd_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
 	fwd_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
+	promo_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
     
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username']

@@ -172,7 +172,7 @@ class AccountCasForm(forms.ModelForm):
         fields = ('username', 'parent', 'dt_ob', 'catg','Department','Designation',
                   'agp', 'dt_last_promo','dt_eligibility','addr_corres', 'addr_perm',
                   'mobile','email', 'from_dsg', 'to_dsg','is_carry','pdf',
-                  'is_admin','doc_link','highest_quali','ass_yr','is_pwd','pwd_link','fwd_link'
+                  'is_admin','doc_link','highest_quali','ass_yr','is_pwd','pwd_link','fwd_link','promo_link'
                   )
     
         
@@ -187,7 +187,12 @@ class AccountCasForm(forms.ModelForm):
                                 'class': 'form-control',
                                 'style': 'height:35px;width:72px;font-weight:bold;',                                
                                 'oninput': 'check_other()'
-                                }),                 
+                                }),
+            'from_dsg'          : widgets.Select(attrs={     
+                                'oninput': 'check_dsg()'
+                                }),
+                                
+                                
             'addr_corres'   : widgets.Textarea(attrs={'class': 'form-control', 'rows': 3,'id': 'addr_corres','style': 'text-transform:uppercase' }),            
             'addr_perm'     : widgets.Textarea(attrs={'class': 'form-control', 'rows': 3,'style': 'text-transform:uppercase' }),
             'agp'           : widgets.Select(attrs={'class': 'form-control','style': 'height:35px'}),
@@ -197,7 +202,8 @@ class AccountCasForm(forms.ModelForm):
                                 }),
             'dt_last_promo' : widgets.DateInput(attrs={
                                 'class': 'form-control',
-                                'type': 'date'                               
+                                'type': 'date',
+                                'oninput': 'check_promo()'
                                 }),
             'dt_eligibility': widgets.DateInput(attrs={
                                 'class': 'form-control',
@@ -232,11 +238,12 @@ class AccountCasForm(forms.ModelForm):
             'doc_link'     : widgets.TextInput(attrs={'class': 'form-control','class':'form-control','style': 'width:400px;height:3em;'}),
             'pwd_link'     : widgets.TextInput(attrs={'class': 'form-control','class':'form-control','style': 'width:400px;height:3em;'}),
             'fwd_link'     : widgets.TextInput(attrs={
-                                'class': 'form-control',
-                                'class':'form-control',
+                                'class': 'form-control',                               
                                 'style': 'width:500px;height:3em;',
                                 'oninput': 'check_fwd()'}),
-
+            'promo_link'   : widgets.TextInput(attrs={
+                                'class': 'form-control',                                
+                                'style': 'width:500px;height:3em;'}),
         
         }
         
@@ -285,7 +292,10 @@ class AccountCasForm(forms.ModelForm):
             pwd_link = cleaned_data.get('pwd_link')
             catg = cleaned_data.get('catg')
             doc_link = cleaned_data.get('doc_link')
-           
+            promo_link = cleaned_data.get('promo_link')
+            
+            dt_last_promo = cleaned_data.get('dt_last_promo')
+             
             if cleaned_data['is_pwd']:
                 if not cleaned_data['pwd_link']:
                     raise forms.ValidationError(u'Please provide document link!')
@@ -296,7 +306,10 @@ class AccountCasForm(forms.ModelForm):
                     raise forms.ValidationError(u'Please provide document link!') 
                 #return cleaned_data 
 
-                
+            if cleaned_data['dt_last_promo']:
+                if not cleaned_data['promo_link']:
+                    raise forms.ValidationError(u'Please provide document link!')
+                    
        
     def __init__(self, *args, **kwargs):
         super(AccountCasForm,self).__init__(*args, **kwargs)
@@ -310,9 +323,12 @@ class AccountCasForm(forms.ModelForm):
         
         #if self.fields['is_pwd'] == False:
            #self.fields['pwd_link'].required = False
-        self.fields['fwd_link'].widget.attrs['placeholder'] = 'URL for scan copy of signed endorsement form'    
+        self.fields['fwd_link'].widget.attrs['placeholder'] = 'URL for scan copy of signed endorsement form'
+        self.fields['promo_link'].widget.attrs['placeholder'] = 'put the relevant document link '        
         self.fields['from_dsg'].widget.attrs['readonly'] = True
         self.fields['to_dsg'].required = True
+        #self.fields['to_dsg'].widget.attrs['readonly'] = True
+        #self.fields['to_dsg'].widget.attrs['disabled'] = True
         self.fields['parent'].required = True
         self.fields['catg'].required = True
         self.fields['Department'].required = True

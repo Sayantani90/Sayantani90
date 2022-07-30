@@ -812,7 +812,7 @@ def prj_edit(request, pk):
             
             if form1.is_valid():                
                 form1.save()
-                messages.error(request,('Record has been modified succesfully!')) 
+                messages.success(request,('Record has been modified succesfully!')) 
                 #return redirect("catg_3:resch-view", user_id=prj.email_id)                
                 return redirect(request.path)
                  
