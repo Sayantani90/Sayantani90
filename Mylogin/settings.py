@@ -26,8 +26,8 @@ SECRET_KEY = 'r0&5%6k7uqp)$pgt-m)-efq&)gtx0&3q_0@=()rxhr+g#v$@8d'
 DEBUG = True
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djsunil.herokuapp.com' ]
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jucas.herokuapp.com' ]
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ju-cas.herokuapp.com' ]
+# ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
 
 if DEBUG:
