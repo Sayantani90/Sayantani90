@@ -28,8 +28,8 @@ DEBUG = True
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djsunil.herokuapp.com' ]
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://ju-cas.herokuapp.com/' ]
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://tm-sys-dashbobord.herokuapp.com/', config('SERVER', default='127.0.0.1')]
-ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
-# ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = ["https://ju-cas.herokuapp.com"]
