@@ -30,6 +30,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ju-cas.herokuapp.com' ]
 # ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
 
+CSRF_TRUSTED_ORIGINS = ["https://ju-cas.herokuapp.com"]
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development only
 
