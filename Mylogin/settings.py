@@ -202,3 +202,4 @@ DATE_INPUT_FORMATS = ('%d-%m-%Y')
 
 if os.getcwd() == '/app':
     DEBUG = False
+
