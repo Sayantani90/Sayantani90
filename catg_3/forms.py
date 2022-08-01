@@ -4,9 +4,6 @@ from django.forms import widgets
 from django.forms import ValidationError
 #from django.utils.translation import ugettext_lazy
 
-
-
-
 from . models import Jrnl_pub, Pub_other,Resch_proj,Resch_cons,Prj_outcm,Resch_guide,Fellow_Award,Lecture_Paper,E_Learning
   
 class Jrnl_pubForm(forms.ModelForm):
