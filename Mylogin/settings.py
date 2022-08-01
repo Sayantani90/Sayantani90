@@ -27,14 +27,14 @@ SECRET_KEY = 'r0&5%6k7uqp)$pgt-m)-efq&)gtx0&3q_0@=()rxhr+g#v$@8d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djsunil.herokuapp.com' ]
-ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ju-cas.herokuapp.com' ]
+#ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://tm-sys-dashbobord.herokuapp.com/', config('SERVER', default='127.0.0.1')]
 #ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
 #ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
 
-CSRF_TRUSTED_ORIGINS = ["https://ju-cas.herokuapp.com"]
+#CSRF_TRUSTED_ORIGINS = ["https://ju-cas.herokuapp.com"]
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development only
@@ -115,6 +115,17 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'casapp',
+#         'USER': 'postgres',
+#         'PASSWORD': 'pgadmin@22',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # DATABASES = {

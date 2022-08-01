@@ -2,7 +2,7 @@ from django import forms
 from django.forms import Field
 from django.forms import widgets
 from django.forms import ValidationError
-from django.utils.translation import ugettext_lazy
+#from django.utils.translation import ugettext_lazy
 
 
 
