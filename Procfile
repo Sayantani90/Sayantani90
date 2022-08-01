@@ -1,1 +1,1 @@
-web: gunicorn Mylogin.wsgi
+gunicorn Mylogin.wsgi --log-file -
