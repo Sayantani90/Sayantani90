@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import django_heroku
+#import django_heroku
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,11 +28,11 @@ SECRET_KEY = 'r0&5%6k7uqp)$pgt-m)-efq&)gtx0&3q_0@=()rxhr+g#v$@8d'
 DEBUG = True
 
 #ALLOWED_HOSTS = (venv) iqac@IQAC:/media/iqac/New Volume/JU_CAS$ python3 manage.py makemigrations['localhost', '127.0.0.1', 'ju-cas.herokuapp.com' ]
-ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
+#ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://tm-sys-dashbobord.herokuapp.com/', config('SERVER', default='127.0.0.1')]
 #ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
 #ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
 
 #CSRF_TRUSTED_ORIGINS = ["https://ju-cas.herokuapp.com"]
 
@@ -105,27 +105,27 @@ WSGI_APPLICATION = 'Mylogin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbalojekl55jp0',
-        'USER': 'nflemgfosfzeqh',
-        'PASSWORD': '7a9567ddc47e2ba263606a6e0b25b1e315b603a0e43a52b05425a71ba28ff372',
-        'HOST': 'ec2-54-225-234-165.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'casapp',
-#         'USER': 'postgres',
-#         'PASSWORD': 'pgadmin@22',
-#         'HOST': 'localhost',
+#         'NAME': 'dbalojekl55jp0',
+#         'USER': 'nflemgfosfzeqh',
+#         'PASSWORD': '7a9567ddc47e2ba263606a6e0b25b1e315b603a0e43a52b05425a71ba28ff372',
+#         'HOST': 'ec2-54-225-234-165.compute-1.amazonaws.com',
 #         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'casapp',
+        'USER': 'postgres',
+        'PASSWORD': 'pgadmin@22',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # DATABASES = {
@@ -195,7 +195,7 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "live-static", "media-root")
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
 
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
