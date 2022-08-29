@@ -48,7 +48,10 @@ class MyAccountManager(BaseUserManager):
 # def get_default_profile_image():
 # 	return "codingwithmitch/logo_1080_1080.png"
 
-
+def get_image_path(instance, filename):
+    return os.path.join('general', "user_%s" % str(instance.id), filename)
+    
+    
 class Account(AbstractBaseUser,PermissionsMixin):
 	email                                = models.EmailField(verbose_name="email", max_length=60, unique=True)
 	emp_id                               = models.CharField(verbose_name="Emp_id", unique=True, max_length=6) 
@@ -179,13 +182,14 @@ class Account(AbstractBaseUser,PermissionsMixin):
 	frm_rejected            = models.BooleanField(default=False) 
 	rejected_date           = models.BooleanField(default=False)
 	ass_yr                  = models.IntegerField(verbose_name='Assessment Year',null=True, blank=True)   
-	pdf 				    = models.FileField(verbose_name='Attachment(PDF)',upload_to='general/pdfs/', null=True, blank=True)
+	pdf 				    = models.FileField(verbose_name='Attachment(image)',upload_to=get_image_path, null=True, blank=True)
 	doc_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
 	is_pwd                  = models.BooleanField(default=False)
 	pwd_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
 	fwd_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
 	promo_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
-    
+                         
+	
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username']
 

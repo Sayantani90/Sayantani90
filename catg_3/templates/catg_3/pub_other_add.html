@@ -62,15 +62,22 @@
 <form id="formAdd" action="" method="POST" enctype="multipart/form-data" >
 
     {% csrf_token %}
-
+	
+		
      <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 60%;">
           
         <div class="card-body">
-          <h2 class="card-title" style="font-weight:bold;">CATEGORY III : Research and Academic Contribution (Entry Screen)</h2>
-          <h2 class="card-title">III-B : Publications other than journal articles
+		  
+        {% if form1.errors %}
+          <div class="alert-warning center">
+              <h2>{{form1.non_field_errors}}</h2>
+          </div> 
+        {% endif %}
+
+          <h2 class="card-title" style="font-weight:bold;">III-B : Publications other than journal articles (Add New)
 				<a href="{% url 'pub-cancel' %}" class="previous" style="text-decoration:none;float:right;"><i class="fa fa-window-close" style="font-size:36px"></i></a>
           </h2>
-         
+		
 
           <br>
   
@@ -78,7 +85,7 @@
           <table class="table table-striped">
         
                 <td style="display:none;">{{form1.email}}</td> 
-        
+				<tr></tr>
                 <tr>
                     <th VALIGN=middle>Year of Publication<span>*</span></th>
                     <td>{{form1.yr_pub}}</td>
@@ -87,9 +94,9 @@
                     <th VALIGN=middle>Type of Publication<span>*</span></th>
                     <td>{{form1.pub_type}}</td>
                 </tr>	
-                <tr>
+                <tr id="other">
                     <th VALIGN=middle>Title of the Chapter<span>*</span></th>
-                    <td>{{form1.chap_title}}</td>
+                    <td >{{form1.chap_title}}</td>
                 </tr>
                 <tr>
                     <th VALIGN=middle>Title of the Book<span>*</span></th>
@@ -135,14 +142,39 @@
           
 
 <script type="text/javascript">
+
+function limit_input() {
+				var field = document.getElementById("id_yr_pub");
+				var max_length = 4;
+				
+				if (field.value.length > max_length) {
+					field.value = field.value.slice(0, max_length); 
+				}
+				
+}
+
+function check_other() {    
+          
+    var pub_type = $('select#id_pub_type').val();
+    	
+    if (pub_type == 'BK_CHAP') {		
+        $("#other").show("fast")       
+    }
+    else {			
+		$("#other").hide("fast")
+	}    
+  }
+
+
   
   $("form").submit(function(){    
 
     var pub_val    = $('#id_pub_type').val();
     var sts_val    = $('#id_sts_pub').val(); 
     var no_auth    = $('#id_no_auth').val();
-    
-    
+	var chp_title  = $('#id_chap_title').val();
+	
+	
     if (pub_val == "TEXT_BK") {
       if (sts_val == "INTL") {
           var pb =30;
@@ -154,7 +186,7 @@
       else if (sts_val == "LOCL") {
           var pb =15;              
       }
-                       
+	 	  
     }
     else if (pub_val == "REF_BK") {
       if (sts_val == "INTL") {
@@ -166,8 +198,7 @@
       else if (sts_val == "LOCL") {
           var pb =15;              
       }
-                       
-    }
+	}
     else if (pub_val == "BK_CHAP") {
       if (sts_val == "INTL") {
           var pb =10;
@@ -178,7 +209,8 @@
       else if (sts_val == "LOCL") {
           var pb =0;              
       }
-                       
+	  
+	  
     }
     
     var pb = parseInt(pb);

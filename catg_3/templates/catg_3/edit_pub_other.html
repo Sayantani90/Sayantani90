@@ -73,10 +73,7 @@
 
           
         <div class="card-body">
-          <h2 class="card-title" style="font-weight:bold;">CATEGORY III : Research and Academic Contribution (Edit)		  
-				
-		  </h2>
-          <h2 class="card-title">III-B : Publications other than journal articles
+          <h2 class="card-title" style="font-weight:bold;">III-B :Publications other than journal articles (Edit)
             <a href="{% url 'catg_3:pub-other' user_id=request.user.id %}" class="previous" style="text-decoration:none;float:right;"><i class="fa fa-window-close" style="font-size:36px"></i></a>
 		  
           </h2>
@@ -96,9 +93,9 @@
                     <th VALIGN=middle>Type of Publication<span>*</span></th>
                     <td>{{form1.pub_type}}</td>
                 </tr>	
-                <tr>
+                <tr id="other" >
                     <th VALIGN=middle>Title of the Chapter<span>*</span></th>
-                    <td>{{form1.chap_title}}</td>
+                    <td >{{form1.chap_title}}</td>
                 </tr>
                 <tr>
                     <th VALIGN=middle>Title of the Book<span>*</span></th>
@@ -143,7 +140,35 @@
 
 
 <script type="text/javascript">
- 
+
+$( document ).ready(function() {
+       
+    var pub_type = $('select#id_pub_type').val();
+    	
+    if (pub_type == 'BK_CHAP') {		
+        $("#other").show("fast")       
+    }
+    else {
+			
+		$("#other").hide("fast")
+	}    
+	
+});
+
+function check_other() {    
+          
+    var pub_type = $('select#id_pub_type').val();
+    	
+    if (pub_type == 'BK_CHAP') {		
+        $("#other").show("fast")       
+    }
+    else {
+				
+		$("#other").hide("fast")
+	}    
+  }
+
+
   
 $("form").submit(function(){    
 
@@ -163,7 +188,7 @@ if (pub_val == "TEXT_BK") {
   else if (sts_val == "LOCL") {
       var pb =15;              
   }
-                   
+  $('textarea[name=chap_title]').val("");                
 }
 else if (pub_val == "REF_BK") {
   if (sts_val == "INTL") {
@@ -175,7 +200,7 @@ else if (pub_val == "REF_BK") {
   else if (sts_val == "LOCL") {
       var pb =15;              
   }
-                   
+  $('textarea[name=chap_title]').val("");                 
 }
 else if (pub_val == "BK_CHAP") {
   if (sts_val == "INTL") {

@@ -22,18 +22,11 @@
 	  position: absolute;
 	  width: 110%;
 	  margin:300px;
+	  margin-top:580px;;
 	  overflow: auto;
 	  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
 	}
-	.dropdown:hover .dropdown-menu {
-	  display:block;
-	  
-	  position: absolute;
-	  width: 110%;
-	  margin-left:300px;
-	  margin-top:390px;
-	  z-index:1;
-	}
+	
 	.dropdown-menu a {
 	  display: block;
 	  color: #000000;
@@ -107,8 +100,10 @@
         
         <li class="menu-item-sample"><a href="{% url 'account:home' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa-dashboard fa-fw"></i>  Dashboard</a></li>
         <li class="menu-item-sample"><a id="id_gen" href="{% url 'account:cas' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa fa-vcard fa-fw"></i>  General Information</a></li>
-        <li class="menu-item-sample"><a href="{% url 'account:academy' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa fa-graduation-cap fa-fw"></i>  Academic Qualifications</a></li>
-        <li class="menu-item-sample"><a href="{% url 'account:professional' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa fa-briefcase fa-fw"></i>  Professional Experience</a></li>
+        
+		<li class="menu-item-sample"><a href="{% url 'account:academy' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa fa-graduation-cap fa-fw"></i>  Academic Qualifications</a></li>
+       
+		<li class="menu-item-sample"><a href="{% url 'account:professional' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa fa-briefcase fa-fw"></i>  Professional Experience</a></li>
         <li class="menu-item-sample"><a href="{% url 'account:teaching' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa fa-book fa-fw"></i>  Teaching Experience</a></li>
         <li class="menu-item-sample"><a href="{% url 'account:orient' user_id=request.user.id %}" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fa fa-bell fa-fw"></i> Orientation / Refresher Courses</a></li>
         

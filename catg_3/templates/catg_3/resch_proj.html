@@ -84,11 +84,13 @@
                 <th VALIGN=TOP style="width: 30%;">Upload Grant<br>Letter link </th>           
                
                 <th VALIGN=TOP>Self Appraisal Score</th>
-                <th VALIGN=TOP>Verified API Score</th>
-
+				{% if admin %}
+					<th VALIGN=TOP>Verified API Score</th>
+				{% endif %}
+				
                 {% if user.is_applicant %}				
 					          <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
-				        {% endif %}           
+				{% endif %}           
                 
             </tr>
        
@@ -117,14 +119,14 @@
                 {% endif %}
                 
                             
-                <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+                <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 				
 					<script>
 						var spon_score = spon_score + parseFloat({{item.self_api_score}});						
 					</script>
-				
-                <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
-
+				{% if admin %}
+					<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+				{% endif %}
           
                  {% if user.is_applicant %}
                       <td><a style="font-weight:bolder;" name="edit-btn" class="text-information" href="{% url 'catg_3:resch-edit' pk=item.id %}">Edit</a></td>
@@ -172,8 +174,9 @@
             <th VALIGN=TOP style="width: 30%;">Upload Grant<br>Letter link</th>           
            
             <th VALIGN=TOP>Self Appraisal Score</th>
-            <th VALIGN=TOP>Verified API Score</th>
-
+			{% if admin %}
+				<th VALIGN=TOP>Verified API Score</th>
+			{% endif %} 
             {% if user.is_applicant %}				
                 <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
             {% endif %}           
@@ -193,7 +196,7 @@
 			<td>{{ forloop.counter }}</td>			
             <td>{{item.get_faculty_app_display|default_if_none:"Blank"}}</td>               
             <td><textarea rows="3" cols="40" wrap="hard" readonly>{{item.proj_title|default_if_none:"Blank"}}</textarea></td>
-            <td>{{item.fund_agnc|default_if_none:"Blank"}}</td>
+            <td><textarea rows="3" cols="40" wrap="hard" readonly>{{item.fund_agnc|default_if_none:"Blank"}}</textarea></td>
             <td style="text-align:center;">{{item.no_yrs}}</td>
             <td style="text-align:center;">{{item.prj_amt}}</td>        
             
@@ -205,14 +208,15 @@
             {% endif %}
             
                         
-            <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+            <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 			
 				<script>
 						var cons_score = cons_score + parseFloat({{item.self_api_score}});						
 				</script>
 				
-            <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
-
+			{% if admin %}	
+				<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+			{% endif %}
       
              {% if user.is_applicant %}
                   <td><a style="font-weight:bolder;" name="edit-btn" class="text-information" href="{% url 'catg_3:resch-cons-edit' pk=item.id %}">Edit</a></td>
@@ -259,8 +263,9 @@
           <th VALIGN=TOP style="width: 30%;">Upload document link</th>           
          
           <th VALIGN=TOP>Self Appraisal Score</th>
-          <th VALIGN=TOP>Verified API Score</th>
-
+		  {% if admin %}
+			<th VALIGN=TOP>Verified API Score</th>
+		  {% endif %} 
           {% if user.is_applicant %}				
               <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
           {% endif %}           
@@ -292,14 +297,14 @@
           {% endif %}
           
                       
-          <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+          <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 		  
 				<script>
 						var proj_score = proj_score + parseFloat({{item.self_api_score}});						
 				</script>
-				
-          <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
-
+			{% if admin %}	
+				<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+			{% endif %}
     
            {% if user.is_applicant %}
                 <td><a style="font-weight:bolder;" name="edit-btn" class="text-information" href="{% url 'catg_3:prj-edit' pk=item.id %}">Edit</a></td>

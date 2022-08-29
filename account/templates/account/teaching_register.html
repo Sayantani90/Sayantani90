@@ -78,40 +78,49 @@
 				
 						<tr >
                             <td>PG classes :</td>
-							
-							<td>{{form5.pg_class}} </td>
-							
+							{% if not user.is_applicant %}
+								<td>{{teach.pg_class}}</td>
+							{% else %}
+								<td>{{form5.pg_class}} </td>
+							{% endif %}
 							<td></td>
 								
                         </tr>
                         <tr>
                             <td>UG classes :</td>
-							
-							<td>{{form5.ug_class}}</td>
-							
+							{% if not user.is_applicant %}
+								<td>{{teach.ug_class}}</td>
+							{% else %}
+								<td>{{form5.ug_class}}</td>
+							{% endif %}	
 							<td></td>
 									
                         </tr>
 						<tr>
                             <td>Post-doctoral Research :</td>
-							
-							<td>{{form5.postdoc_yrs}}</td>
+							{% if not user.is_applicant %}
+								<td>{{teach.postdoc_yrs}}</td>
+							{% else %}
+								<td>{{form5.postdoc_yrs}}</td>
+							{% endif %}	
 							
 							<td></td>
 									
                         </tr>
 						<tr>
                             <td>Doctoral Research :</td>
-							
-							<td>{{form5.doc_yrs}}</td>
-							
+							{% if not user.is_applicant %}
+								<td>{{teach.doc_yrs}}</td>
+							{% else %}
+								<td>{{form5.doc_yrs}}</td>
+							{% endif %}	
 							<td></td>
 									
                         </tr>
                  
 			
 			</table>		
-
+			<p style="font-size:8;color:tomato">*In case of not applicable, please put 0</p>
 
 			<h4 style="margin-top:10px">B.Field(s) of Specialisation under the Subject / Discipline :
 				
@@ -131,8 +140,12 @@
 					
 				</thead>
 				
-					<tr>		
-						<td>{{form5.specialisation}}</td>
+					<tr>
+						{% if not user.is_applicant %}					
+							<td>{{teach.specialisation|linebreaks}}</td>
+						{% else %}
+							<td>{{form5.specialisation}}</td>
+						{% endif %}
 						<!-- <td>{{form5.url_link}}</td> -->
 					</tr>			
 									
@@ -141,10 +154,10 @@
 			<div class="row" style="text-align: left;" >			
 				<a href="{% url 'account:professional' user_id=pk_var %}"  style="margin-left:15px;padding:0;width:5%;font-weight:bold;font-size:2rem;" class="btn btn-primary btn-lg">&laquo;</a>
 				<a href="{% url 'account:orient' user_id=pk_var %}"  style="margin-left:10px;padding:0;width:5%;font-weight:bold;font-size:2rem;" class="btn btn-success btn-lg">&raquo;</a>
-			
+			{% if user.is_applicant %}	
 				<button style="margin-left:400px;float:right;padding:0;width:110px;color:white;font-size:25px;" type="submit" class="btn btn-info btn-block btn-lg">
 				Save</button>
-			
+			{% endif %}
 			</div>
 
 

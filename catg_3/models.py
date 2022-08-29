@@ -273,5 +273,3 @@ class E_Learning(models.Model):
 def __str__(self):
         return str(self.email) 
         
-
-        

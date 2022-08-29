@@ -14,3 +14,5 @@ dt_last_promo = models.DateField(
 	    verbose_name='Date of last promotion', null=True, blank=True)
 
 promo_link 				= models.CharField(verbose_name='Document Link',max_length=700,null=True, blank=True)
+
+

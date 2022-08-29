@@ -65,9 +65,9 @@ class RegistrationForm(UserCreationForm):
     
 	def clean_email(self):
 		email = self.cleaned_data['email'].lower()
-		if "@jadavpuruniversity.in" not in email:
-			raise forms.ValidationError ("Email must contain @jadavpuruniversity.in!")
-		return email   
+		#if "@jadavpuruniversity.in" not in email:
+			#raise forms.ValidationError ("Email must contain @jadavpuruniversity.in!")
+		#return email   
         
 		try:
 			account = Account.objects.exclude(pk=self.instance.pk).get(email=email)           
@@ -89,7 +89,7 @@ class RegistrationForm(UserCreationForm):
             self.fields['emp_id'].widget.attrs['placeholder'] = 'Employee Id'                
             self.fields['username'].widget.attrs['autofocus'] = True
             self.fields['username'].widget.attrs['placeholder'] = 'FULL NAME (as in university record)'
-            self.fields['email'].widget.attrs['placeholder'] = 'email@jadavpuruniversity.com'            
+            self.fields['email'].widget.attrs['placeholder'] = 'email@jadavpuruniversity.in'            
             self.fields['Department'].empty_label = "Select Department/School"              
             self.fields['Department'].required = True            
             self.fields['Designation'].required = True            
@@ -605,24 +605,22 @@ class ApiCatg_IIForm(forms.ModelForm):
     
     def __init__(self,*args,**kwargs):
         super (ApiCatg_IIForm,self ).__init__(*args,**kwargs)
-        self.fields['field_based_activities'].validators = [min_range]
+        
         self.fields['actl_api_fba'].widget.attrs['readonly'] = True
         self.fields['self_api_fba'].widget.attrs['readonly'] = True
         self.fields['veri_api_fba'].widget.attrs['readonly'] = True
 
-        self.fields['corp_life_management'].validators = [min_range]
+        
         self.fields['actl_api_clm'].widget.attrs['readonly'] = True
         self.fields['self_api_clm'].widget.attrs['readonly'] = True
         self.fields['veri_api_clm'].widget.attrs['readonly'] = True
 
 
-        self.fields['prof_dev_activity'].validators = [min_range]
+        
         self.fields['actl_api_pda'].widget.attrs['readonly'] = True
         self.fields['self_api_pda'].widget.attrs['readonly'] = True
         self.fields['veri_api_pda'].widget.attrs['readonly'] = True
         
-def min_range(value):
-    if value < 100 :
-       raise ValidationError(u'Check the hours')         
+       
    
     

@@ -32,13 +32,13 @@
     <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 95%;margin-left:50px;">
           
         <div class="card-body" >
-                    <h2 class="card-title" style="font-weight:bold;">Part E. Orientation / refresher Course(s) Attended
+                    <h2 class="card-title" style="font-weight:bold;">Part E. Orientation / Induction Program(s) or Refresher / Short-term Course(s):
 				   
 						<a href="{% url 'account:home' user_id=pk_var %}" class="previous" style="text-decoration:none;float:right;"><i class="fa fa-window-close" style="font-size:36px"></i></a>
 				 
 				    </h2>
 					
-					<h4 style="margin-top:10px">A . Orientation / Refresher Course(s) Attended :
+					<h4 style="margin-top:10px">Program(s) / Course(s) Attended :
 						{% if user.is_applicant %}
 							<a href="{% url 'orient-add' %}" class="w3-button w3-circle w3-teal" style="text-decoration:none;">+</a>
 							<small style="color:Tomato;font-weight:bolder">Add</small>							

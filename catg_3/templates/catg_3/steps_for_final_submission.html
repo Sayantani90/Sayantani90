@@ -33,20 +33,20 @@
 		<hr>
 		<h2>
 			<div>
-				<div>Step 1: Click below to generate your endorsement form</div>
+				<div>Step 1: Click below to generate your forwarding letter <span style="font-size:20px">(to be signed by HoD/Director of School)</span></div>
 				<br>
 				<div id="ltr" style="width:250px;float:left;">
 					<a type="button" style="font-weight:bolder;" href="{% url 'catg_3:endo-view' user_id=pk_var %}" target="_blank" class="btn btn-primary btn-block btn-lg">
-						Endorsemment Form</a>
+						Forwarding Letter</a>
 				</div>
 			</div>
 			<br><br>
 			
 			<div>
-				<div style="margin-top:20px;">Step 2: Upload the signed endorsement form in Google Drive and paste the link below</div>
+				<div style="margin-top:20px;">Step 2: Upload the signed letter in Google Drive and paste the link below</div>
 				<form action="" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
-					{{form.fwd_link}}
+					{{form.fwd_link}}					
 					<!--<input name="fwd_link" class="form-control" placeholder="URL of signed scan copy of endorsement form"  id="id_fwd_link" style="width:40%;margin-top:20px;">-->
 				</form>
 			</div>

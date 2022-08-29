@@ -4,7 +4,7 @@ from django.http import HttpResponse,HttpRequest
 from django.forms import formset_factory
 from django.test import tag
 from . models import Jrnl_pub,Pub_other,Resch_proj,Resch_cons,Prj_outcm, Resch_guide,Fellow_Award,Lecture_Paper,E_Learning
-from . forms import Jrnl_pubForm, Pub_otherForm,Resch_projForm,Prj_outcmForm, Resch_guideForm, Fellow_AwardForm,Lecture_PaperForm,E_LearningForm,Resch_consForm
+from . forms import Jrnl_pubForm, Pub_otherForm,Resch_projForm,Prj_outcmForm, Resch_guideForm, Fellow_AwardForm,Lecture_PaperForm,E_LearningForm,Resch_consForm                  
 from account.models import Account,ApiCatg_I,ApiCatg_II
 from account.forms import AccountCasForm
 from django.contrib import messages
@@ -382,6 +382,8 @@ def pub_add1(request, pk):
     user_id=pub.email_id
     pub_id=pub.id
     
+    pub=Pub_other.objects.create(email_id=request.user.id)    
+    pub.save()
     
     if request.method == 'POST':
          
@@ -393,8 +395,7 @@ def pub_add1(request, pk):
                 return redirect("pub-add")
                 # return redirect(request.path)
                 # return redirect("catg_3:jrnl-pub", user_id=jrnl.email_id)
-               
-    
+                
     context = {
         'form1': form1,
         'user_id': user_id,
@@ -766,7 +767,8 @@ def prj_add1(request, pk):
     if request.method == 'POST':
          
             form1 = Prj_outcmForm(request.POST, request.FILES, instance=prj)
-            if form1.is_valid():                            
+            if form1.is_valid():
+            
                  
                 form1.save()
                 messages.success(request,('Record has been added successfully!'))
@@ -1322,7 +1324,8 @@ def api_summary_view(request,*args, **kwargs):
     lec = account.lecture_paper_set.all()
     elearn = account.e_learning_set.all()
     
-
+   
+    
     context = {}
     
     context = {
@@ -1340,9 +1343,7 @@ def api_summary_view(request,*args, **kwargs):
                 'fell': fell,
                 'lec': lec,
                 'elearn' : elearn,
-                
-              
-                
+            
                 'pk_var': pk_var,
                 'user_var': user_var,               
                 

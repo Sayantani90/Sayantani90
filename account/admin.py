@@ -6,7 +6,7 @@ from account.models import Account, Department,Academic,Orientation,ApiCatg_I
 
 class AccountAdmin(UserAdmin):
 	list_display = (
-     'email','username','date_joined','dt_ob', 
+     'email','emp_id','username','date_joined','dt_ob', 
      'last_login','is_applicant','is_admin','is_hod','is_dean',
      'Department', 'Designation', 'faculty',
      'highest_quali','pan_no',
@@ -14,7 +14,7 @@ class AccountAdmin(UserAdmin):
      'tot_experience',     
      )
 	search_fields = ('email','username')
-	readonly_fields=('id', 'last_login')
+	readonly_fields=('id','last_login')
 	filter_horizontal = ()
 	list_filter = ()
 	fieldsets = ()

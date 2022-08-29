@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-#import django_heroku
+
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,17 +27,17 @@ SECRET_KEY = 'r0&5%6k7uqp)$pgt-m)-efq&)gtx0&3q_0@=()rxhr+g#v$@8d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = (venv) iqac@IQAC:/media/iqac/New Volume/JU_CAS$ python3 manage.py makemigrations['localhost', '127.0.0.1', 'ju-cas.herokuapp.com' ]
-#ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
-#ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://tm-sys-dashbobord.herokuapp.com/', config('SERVER', default='127.0.0.1')]
-#ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
-#ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['192.168.124.120', '127.0.0.1', 'localhost']
 
-#CSRF_TRUSTED_ORIGINS = ["https://ju-cas.herokuapp.com"]
+#ALLOWED_HOSTS = ['ju-cas.herokuapp.com']
+ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['192.168.107.55', '127.0.0.1', 'localhost']
+#ALLOWED_HOSTS = ["localhost", "192.168.107.55"]
+
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development only
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 1025
 
 
 AUTH_USER_MODEL = 'account.Account'
@@ -100,6 +100,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Mylogin.wsgi.application'
+           
+            
 
 
 # Database
@@ -155,6 +157,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'casapp.ju@gmail.com'
+EMAIL_HOST_PASSWORD = 'bmeqjrtokwcjnjhs'
+
 
 
 # Internationalization

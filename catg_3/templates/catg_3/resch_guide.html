@@ -80,11 +80,14 @@
                          
                
                 <th VALIGN=TOP>Self Appraisal Score</th>
-                <th VALIGN=TOP>Verified API Score</th>
-
+				
+				{% if admin %}
+					<th VALIGN=TOP>Verified API Score</th>
+				{% endif %}
+				
                 {% if user.is_applicant %}				
 					          <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
-				        {% endif %}           
+				{% endif %}           
                 
             </tr>
        
@@ -110,14 +113,15 @@
                 {% endif %}
                 
                             
-                <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+                <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 				
 					<script>
 						var score = score + parseFloat({{item.self_api_score}});						
 					</script>
-				
-                <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
-
+					
+				{% if admin %}
+					<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+				{% endif %}
           
                  {% if user.is_applicant %}
                       <td><a style="font-weight:bolder;" name="edit-btn" class="text-information" href="{% url 'catg_3:resch-guide-edit' pk=item.id %}">Edit</a></td>

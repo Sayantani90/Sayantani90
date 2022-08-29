@@ -51,6 +51,8 @@
 <form action="" method="POST" enctype="multipart/form-data">
 
     {% csrf_token %}
+	
+	
 
  <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 95%;">
           
@@ -86,7 +88,9 @@
                 <th VALIGN=TOP>Document Link</th>
 
                 <th VALIGN=TOP>Self Appraisal Score</th>
-                <th VALIGN=TOP>Verified API Score</th>
+				{% if admin %}
+					<th VALIGN=TOP>Verified API Score</th>
+				{% endif %}
                 {% if user.is_applicant %}				
 					<th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
 				{% endif %}           
@@ -101,7 +105,7 @@
             {% if item.yr_pub %}
               <tr>
                 <td style="display:none;">{{form.email}}</td>             
-                <td>{{ forloop.counter0 }}</td>
+                <td>{{ forloop.counter }}</td>
                 <td style="text-align:center;">{{item.yr_pub}}</td>               
                 <td>{{item.get_pub_type_display|default_if_none:"Blank"}}</td>
                 <td style="text-align:center;"><textarea rows="3" cols="40" wrap="hard" readonly>{{item.chap_title|default_if_none:"Blank"}}</textarea></td>
@@ -119,15 +123,15 @@
                 {% endif %}
                 
                             
-                <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+                <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 				
 					<script>
 						var score = score + parseFloat({{item.self_api_score}});						
 					</script>
 				
-				
-                <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
-
+				{% if admin %}
+					<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+				{% endif %} 
           
                  {% if user.is_applicant %}
 						<td><a style="font-weight:bolder;" name="edit-btn" class="text-information" href="{% url 'catg_3:pub-edit' pk=item.id %}">Edit</a></td>

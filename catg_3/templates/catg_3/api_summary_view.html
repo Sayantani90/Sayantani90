@@ -106,16 +106,20 @@
 		</h2>
 		<hr>
 		
-		<div style="margin-left:150px;">
+		<div style="margin-left:220px;">
 		
-			<table  class="table center">
+			<table  class="table center" width="100%">
 
 				<tr>
 					<th>Category</th>
 					<th>Period</th>
 					<th>Self Appraisal Score</th>
-					<th style="text-align:center;">Verified Sore <br>(only for verifier)</th>
-					<th style="text-align:center;">Status <br> (options)</th>
+					
+					{% if admin %}
+						<th style="text-align:center;">Verified Sore <br>(only for verifier)</th>
+					{% endif %}
+					
+					<th style="text-align:center;width:30%;">Status <br> (options)</th>
 				</tr>
 				
 				<!-- API Catg-I -->
@@ -128,8 +132,12 @@
 					<td style="text-align:center;">I</td>
 					<td>Yearly</td>
 					<td id="api1" style="text-align:center;"></td>
-					<td id="api2" style="text-align:center;"></td>
-					<td id="api3" style="text-align:left;"></td>		
+					{% if admin %}
+						<td id="api2" style="text-align:center;"></td>
+					{% else %}
+						<td id="api2" style="display:none;text-align:center;"></td>
+					{% endif %}	
+					<td id="api3" style="text-align:center;"></td>		
 				</tr>
 				
 				<!-- API Catg-II -->
@@ -139,13 +147,18 @@
 					
 					var api_2 = api_2 * parseInt({{account.ass_yr}});
 					
+					
 				</script>
 				<tr>
 					<td style="text-align:center;">II</td>
 					<td>Assessment Period</td>
 					<td id="api2a" style="text-align:center;"></td>
-					<td id="api2b" style="text-align:center;"></td>
-					<td id="api2c" style="text-align:left;"></td>		
+					{% if admin %}
+						<td id="api2b" style="text-align:center;"></td>
+					{% else %}
+						<td id="api2b" style="display:none;text-align:center;"></td>
+					{% endif %}	
+					<td id="api2c" style="text-align:center;"></td>		
 				</tr>
 				
 
@@ -166,8 +179,8 @@
 					<tr class="hide_div">
 						<td style="text-align:center;">III-a</td>
 						<td>Assessment Period</td>
-						<td id="api3a" style="text-align:center;"></td>
-						<td id="api3b" style="text-align:center;"></td>
+						<td id="api3a" style="text-align:center;"></td>						
+						<td id="api3b" style="text-align:center;"></td>						
 						<td id="api3c" style="text-align:left;"></td>		
 					</tr>
 
@@ -351,8 +364,12 @@
 				<td style="text-align:center;">III</td>
 				<td>Assessment Period</td>
 				<td id="api12a" style="text-align:center;"></td>
-				<td id="api12b" style="text-align:center;"></td>
-				<td id="api12c" style="text-align:left;"></td>		
+				{% if admin %}
+					<td id="api12b" style="text-align:center;"></td>
+				{% else %}
+					<td id="api12b" style="display:none;text-align:center;"></td>
+				{% endif %}
+				<td id="api12c" style="text-align:center;"></td>		
 			</tr>
 			
 			
@@ -368,14 +385,19 @@
 				<td style="text-align:center;">II+III</td>
 				<td>Assessment Period</td>
 				<td id="api23a" style="text-align:center;"></td>
-				<td id="api23b" style="text-align:center;"></td>
-				<td id="api23c" style="text-align:left;"></td>		
+				
+				{% if admin %}
+					<td id="api23b" style="text-align:center;"></td>
+				{% else %}
+					<td id="api23b" style="display:none;text-align:center;"></td>
+				{% endif %}
+				
+				<td id="api23c" style="text-align:center;"></td>		
 			</tr>
 			
-			
 		</table>
-
-
+		
+		
 
 
 	</div>
@@ -399,10 +421,12 @@
 
 		const api1 = document.getElementById('api1');	// self api score
 		const api2 = document.getElementById('api2');	// verified score
-		const api3 = document.getElementById('api3');	// comment	
+		const api3 = document.getElementById('api3');	// comment
+
 		
 		api1.innerHTML = api_1.toFixed(2);
 		api2.innerHTML = api_1.toFixed(2);
+		
 		
 		var stage = "{{account.to_dsg}}";
 		var api_t=0;
@@ -413,10 +437,12 @@
 		if (stage == "Stage 2" || stage == "Stage 3" ){
 			
 			if (api_1 < 80) {
-				api3.innerHTML = "Min Score not attained" ;				
+				api3.innerHTML = "Min Score not attained" ;
+								
 			}
 			else {
 				api3.innerHTML = "Criteria Satisfied" ;
+				
 				api_t=api_t+1;
 			}
 		}	
@@ -424,10 +450,12 @@
 		if (stage == "Stage 4"){
 			
 			if (api_1 < 75) {
-				api3.innerHTML = "Min Score not attained" ;				
+				api3.innerHTML = "Min Score not attained" ;
+				
 			}
 			else {
 				api3.innerHTML = "Criteria Satisfied" ;
+				
 				api_t=api_t+1;
 			}
 		}
@@ -435,10 +463,12 @@
 		if (stage == "Stage 5"){
 			
 			if (api_1 < 70) {
-				api3.innerHTML = "Min Score not attained" ;				
+				api3.innerHTML = "Min Score not attained" ;
+				
 			}
 			else {
 				api3.innerHTML = "Criteria Satisfied" ;
+				
 				api_t=api_t+1;
 			}
 		}

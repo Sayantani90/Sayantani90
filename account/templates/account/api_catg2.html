@@ -48,10 +48,12 @@
         <th>Max Marks</th>
         <th style="text-align:center;">Hours spent per<br>academic year</th>
         <th style="text-align:center;display:none">Actual score</th>
-        <th style="text-align:center;">Self Appraisal Score</th>        
-        <th style="text-align:center;">Verified API Score</th>
-		<th >Doc.Link(if any)</th>
-		<th></th>
+        <th style="text-align:center;">Self Appraisal Score</th>
+		{% if not user.is_applicant %}	        
+			<th style="text-align:center;">Verified API Score</th>
+		{% endif %}		
+		<th>Doc.Link(if any)</th>
+		<th>Link Status</th>
     </tr>
  
 	<tr>
@@ -62,13 +64,29 @@
 		(ii) Other co-curricular activities(Cultural, Sports, NSS, NCC etc.).Extension and dissemination activities (public /popular lectures/talks/seminars etc.)
 		</textarea>		
         </td>
-        <td>{{fba_marks}}</td>
-        <td>{{form.field_based_activities}}</td>
+        <td>{{fba_marks}}</td> 
+		{% if admin %}
+			<td>{{form.field_based_activities}}</td>
+			<script>
+			 $('input[name=field_based_activities]').attr('readonly', true); 
+			</script>
+		{% else %}
+			<td>{{form.field_based_activities}}</td>
+		{% endif %}	
         <td style="display:none;">{{form.actl_api_fba}}</td>
-        <td>{{form.self_api_fba}}</td>
-		<td>{{form.veri_api_fba}}</td>
-		<td>{{form.url_fba}}</td>
+        <td style="text-align:center;">{{form.self_api_fba}}</td>
 		
+		{% if admin %}
+			<td>{{form.veri_api_fba}}</td>
+			<script>
+			 $('input[name=veri_api_fba]').attr('readonly', false); 
+			</script>
+		{% else %}	
+			<td style="display:none;">{{form.veri_api_fba}}</td>
+		{% endif %}
+		{% if not admin %}
+			<td>{{form.url_fba}}</td>
+		{% endif %}
 		{% if api2.url_fba %}
 			<td><a name="url_fba"  id="id_url_fba" href="{{api2.url_fba}}" target="_blank"  style="max-width:97%;" class="btn btn-primary ">View</a></td>							
 		{% else %}
@@ -107,12 +125,30 @@
 		</textarea>
 		</td>
         <td>{{clm_marks}}</td>
-        <td>{{form.corp_life_management}}</td>
-        <td style="display:none;">{{form.actl_api_clm}}</td>
-        <td>{{form.self_api_clm}}</td>
-		<td>{{form.veri_api_clm}}</td>
-		<td>{{form.url_clm}}</td>
+        
+		{% if admin %}
+			<td>{{form.corp_life_management}}</td>
+			<script>
+			 $('input[name=corp_life_management]').attr('readonly', true); 
+			</script>
+		{% else %}
+			<td>{{form.corp_life_management}}</td>
+		{% endif %}
 		
+        <td style="display:none;">{{form.actl_api_clm}}</td>
+        <td style="text-align:center;">{{form.self_api_clm}}</td>
+		
+		{% if admin %}
+			<td>{{form.veri_api_clm}}</td>
+			<script>
+			 $('input[name=veri_api_clm]').attr('readonly', false); 
+			</script>
+		{% else %}	
+			<td style="display:none;">{{form.veri_api_clm}}</td>
+		{% endif %}
+		{% if not admin %}
+			<td>{{form.url_clm}}</td>
+		{% endif %}
 		{% if api2.url_clm %}
 			<td><a name="url_clm"  id="id_url_clm" href="{{api2.url_clm}}" target="_blank"  style="max-width:97%;" class="btn btn-primary ">View</a></td>							
 		{% else %}
@@ -131,12 +167,29 @@
         </textarea>   
         </td>
         <td>{{pda_marks}}</td>
-        <td>{{form.prof_dev_activity}}</td>
+        
+		{% if admin %}
+			<td>{{form.prof_dev_activity}}</td>
+			<script>
+			 $('input[name=prof_dev_activity]').attr('readonly', true); 
+			</script>
+		{% else %}
+			<td>{{form.prof_dev_activity}}</td>
+		{% endif %}
         <td style="display:none;">{{form.actl_api_pda}}</td>
-        <td>{{form.self_api_pda}}</td>
-        <td>{{form.veri_api_pda}}</td>
-		<td>{{form.url_pda}}</td>
 		
+        <td style="text-align:center;">{{form.self_api_pda}}</td>
+		{% if admin %}
+			<td>{{form.veri_api_pda}}</td>
+			<script>
+			 $('input[name=veri_api_pda]').attr('readonly', false); 
+			</script>
+		{% else %}	
+			<td style="display:none;">{{form.veri_api_pda}}</td>
+		{% endif %}
+        {% if not admin %}
+			<td>{{form.url_pda}}</td>
+		{% endif %}
 		{% if api2.url_pda %}
 			<td><a name="url_pda"  id="id_url_pda" href="{{api2.url_pda}}" target="_blank"  style="max-width:97%;" class="btn btn-primary ">View</a></td>							
 		{% else %}
@@ -153,8 +206,10 @@
         <td>Total : </td>
         <td>{{tot_marks}}</td>        
         <td></td>               
-        <td style="padding-left:28px;text-align:left;">{{tot_self_api}}</td>        
-        <td style="padding-left:28px;text-align:left;">{{tot_veri_api}}</td>
+        <td style="padding-left:28px;text-align:left;">{{tot_self_api}}</td> 
+		{% if admin %}	
+			<td style="padding-left:28px;text-align:left;">{{tot_veri_api}}</td>
+		{% endif %}	
 		<td></td>
 		<td></td>
     </tr>

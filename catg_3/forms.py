@@ -1,8 +1,10 @@
 from django import forms
-from django.forms import Field
-from django.forms import widgets
-from django.forms import ValidationError
+from django.forms import Field,widgets,ValidationError
+
 #from django.utils.translation import ugettext_lazy
+
+
+
 
 from . models import Jrnl_pub, Pub_other,Resch_proj,Resch_cons,Prj_outcm,Resch_guide,Fellow_Award,Lecture_Paper,E_Learning
   
@@ -87,8 +89,11 @@ class Pub_otherForm(forms.ModelForm):
         fields = "__all__"
 
         widgets = {            
-                    'yr_pub'         : widgets.NumberInput(attrs={'class':'form-number form-control'}),                        
-                    'pub_type'       : widgets.Select(attrs={'class':'form-control','style': 'width:600px;height:3em;text-transform:uppercase'}),
+                    'yr_pub'         : widgets.NumberInput(attrs={'class':'form-number form-control','oninput': 'limit_input()'}),                        
+                    'pub_type'       : widgets.Select(attrs={
+                                                        'class':'form-control',
+                                                        'style': 'width:600px;height:3em;text-transform:uppercase',
+                                                        'oninput': 'check_other()'}),
                     'chap_title'     : widgets.Textarea(attrs={'class':'form-control', 'style': 'height: 4em;text-transform:uppercase',
                                                     'rows': 3,'cols': 40}),
                     'bk_title'       : widgets.Textarea(attrs={'class':'form-control', 'style': 'height: 4em;text-transform:uppercase',
@@ -107,16 +112,41 @@ class Pub_otherForm(forms.ModelForm):
             cleaned_data = super(Pub_otherForm, self).clean()
             no_auth = cleaned_data.get('no_auth')
             pub_type = cleaned_data.get('pub_type')
+            
+            chp_title = cleaned_data.get('chap_title')
             sts_pub = cleaned_data.get('sts_pub')
             
-           
+            if pub_type == 'BK_CHAP':
+               if not chp_title:
+                  print(pub_type)
+                  raise ValidationError(u'Please Fill the Title of the Chapter')
+            return cleaned_data
+            
+                       
     def __init__(self, *args, **kwargs):
         super(Pub_otherForm,self).__init__(*args, **kwargs)
+        
         self.fields['yr_pub'].widget.attrs['min'] = 1990
-        self.fields['yr_pub'].widget.attrs['max'] = 2022
+        self.fields['yr_pub'].widget.attrs['max'] = 2022 # check current year
         self.fields['yr_pub'].required = True
         self.fields['no_auth'].widget.attrs['min'] = 1
-        self.fields['no_auth'].widget.attrs['max'] = 10  
+        self.fields['no_auth'].widget.attrs['max'] = 10
+        self.fields['pub_type'].required = True
+        #self.fields['chap_title'].required = True
+        self.fields['bk_title'].required = True
+        self.fields['no_auth'].required = True
+        self.fields['name_pub'].required = True        
+        self.fields['sts_pub'].required = True
+        self.fields['isbn_no'].required = True
+        self.fields['pub_url'].required = True
+                
+
+
+
+
+
+
+        
         
 class Resch_projForm(forms.ModelForm):
      
@@ -263,7 +293,7 @@ class Prj_outcmForm(forms.ModelForm):
                     raise forms.ValidationError(u'Please select Patent Status!')           
                     
             if prj_lvl == "None":
-                raise forms.ValidationError(u'Please select Lavel!')
+                raise forms.ValidationError(u'Please select Level!')
             
             
             
@@ -361,6 +391,4 @@ class E_LearningForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(E_LearningForm,self).__init__(*args, **kwargs)
 
-
-
-                               
+                           

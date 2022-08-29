@@ -17,7 +17,7 @@
 
  
 .card-body{
-	background-color: #2a6592;
+	background-color: #5d5c61;
 	cursor:default;
 	
 	
@@ -33,6 +33,10 @@
 th, td{
 	color:white;
 	font-size:20px;
+}
+
+td a:hover{
+	color:yellow;
 }
 
 .txt-color{
@@ -80,8 +84,8 @@ th, td{
 							<th style="text-align: left;">Faculty</th>						
 							<th style="text-align: left;">Department</th>							
 							<th style="text-align: left;">Designation</th>
-							<th style="text-align: left;">More details</th>
-							<th style="text-align: left;">Application Status</th>
+							
+							<th style="text-align: left;">Status</th>
 							<th style="text-align: left;">PDF Doc&nbsp;</th>
 							
 						</tr>
@@ -92,7 +96,7 @@ th, td{
 						{% for item in account %}
 
 							<tr>
-								{% if item.is_applicant and not item.is_hod and item.Department == user.Department  %}
+								{% if item.is_applicant and not item.is_admin %}
 									
 								
 								    <td>{{item.username}}</td>
@@ -100,8 +104,8 @@ th, td{
 									<td>{{item.Department}}</td>
 									<td>{{item.get_Designation_display}}-{{item.from_dsg}}</td>
 																	
-									<td><a style="font-weight:bolder;color:white;text-decoration:none;" class="p-2" href="{% url 'account:cas' user_id=item.id %}">Go inside</a></td>
-									
+									<td><a  class="btn btn-warning" href="{% url 'account:cas' user_id=item.id %}">Open Form</a></td>
+									<!--
 									<td><button type="button" style="color:blue;font-weight:bolder;background-color:white;" class="btn" data-toggle="collapse" data-target="#demo" >About me</button>
 										<div id="demo" class="collapse" >
 											
@@ -114,7 +118,8 @@ th, td{
 											{% endif %}
 											
 										</div>
-									</td>	
+									</td>
+									-->
 									<td><a style="font-weight:bolder;color:white;text-decoration:none;" class="p-2" href="{% url 'account:pdf_view' user_id=item.id %}" target="_blank">Preview</a></td>
 								
 								{% endif %}
@@ -130,11 +135,11 @@ th, td{
 								<td>{{faculty}}</td>								
 								<td>{{Department}}</td>
 								<td>{{Designation}}</td>
-								<td>Applicant</td>									
+																
 
-								<td><a style="font-weight:bolder;" class="p-2 txt-color" href="{% url 'account:cas' user_id=request.user.id %}">View</a></td>
+								<td><a style="font-weight:bolder;" class="btn btn-warning" href="{% url 'account:cas' user_id=request.user.id %}">Open Form</a></td>
 								
-								<td><a style="font-weight:bolder;color:white;" class="p-2" href="{% url 'account:pdf_view' user_id=request.user.id %}" target="_blank">Preview</a></td>
+								<td><a style="font-weight:bolder;" class="p-2 txt-color" href="{% url 'account:pdf_view' user_id=request.user.id %}" target="_blank">Preview</a></td>
 							</tr>
 					{% endif %}	
 

@@ -3,15 +3,21 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages, auth
+from django.core.mail import send_mail
 from django.conf import settings
 from account.models import Account, Academic, Research, PriorPost,PresentPost,TeachingExp,Orientation,ApiCatg_I, ApiCatg_II 
 from django.core.files.storage import FileSystemStorage
 from django.core.files.storage import default_storage
 from django.views.generic import TemplateView, ListView, CreateView, View
+from django.db.models import Sum,Min,Max,Avg
+from django.contrib.auth.decorators import login_required
+
+from catg_3.models import Jrnl_pub,Pub_other,Resch_proj,Resch_cons,Prj_outcm
+
 
 import os
 from pathlib import Path
@@ -53,8 +59,13 @@ class ViewPDF(View):
             user_id = kwargs.get("user_id")
             
             account = Account.objects.get(pk=user_id)
+            
             user = request.user
-            global pk_var 
+           
+            
+            act = Account.objects.get(pk=request.user.id)    
+            admin = act.is_admin
+            
             
             if account.is_admin:
                 messages.success(request,"You can get PDF of your applicant's ! Pl.click on your member's row")
@@ -76,6 +87,7 @@ class ViewPDF(View):
             
             if Account.is_admin:
                 account = Account.objects.get(pk=user_id)
+                
             else:
                 account = Account.objects.get(pk=request.user.id)  
             
@@ -86,11 +98,174 @@ class ViewPDF(View):
             curpost = account.presentpost_set.all()
             teach = account.teachingexp_set.all()
             orient = account.orientation_set.all()
-    
+            api1 = ApiCatg_I.objects.get(pk=user_id)
+            api2 = ApiCatg_II.objects.get(pk=user_id)
+            jrnl = account.jrnl_pub_set.all()
+            pub = account.pub_other_set.all()
+            res = account.resch_proj_set.all()
+            cons = account.resch_cons_set.all()
+            prj = account.prj_outcm_set.all()
+            res_guide = account.resch_guide_set.all()
+            fellow = account.fellow_award_set.all()
+            lec = account.lecture_paper_set.all()
+            elearn = account.e_learning_set.all()
             
-    
-            context={}
-    
+            api_t=0
+            
+            api_1=(api1.self_api_dt+api1.self_api_ed+api1.self_api_it)
+            api_2=(api2.self_api_fba+api2.self_api_clm+api2.self_api_pda)
+            
+                
+            # Summary of API I Category
+            
+            if account.to_dsg == 'Stage 2' or account.to_dsg == 'Stage 3':
+                api_factor = 7.50
+                dt_marks=70
+                
+                if (api_1 < 80):                   
+                    api_sts1 = "Min Score not attained"				
+                else:			
+                    api_sts1 = "Criteria Satisfied"
+                    api_t=api_t+1
+                    
+            else :
+                api_factor = 7.75
+                dt_marks=60
+                
+                if account.to_dsg == 'Stage 4':
+                    if (api_1 < 75):				
+                        api_sts1 = "Min Score not attained"
+                    else:
+                        api_sts1 = "Criteria Satisfied"
+                        api_t=api_t+1
+                        
+                if account.to_dsg == 'Stage 5':
+                    if (api_1 < 70):				
+                        api_sts1 = "Min Score not attained"
+                    else:
+                        api_sts1 = "Criteria Satisfied"
+                        api_t=api_t+1
+			   
+                
+            
+            if account.to_dsg == 'Stage 2' or account.to_dsg == 'Stage 3' or account.to_dsg == 'Stage 4':
+                ed_factor = 10
+                ed_marks=20
+            else :
+                ed_factor = 10
+                ed_marks=10     
+            
+            if account.to_dsg == 'Stage 2' or account.to_dsg == 'Stage 3':
+                it_factor = 10
+                it_marks = 10
+            elif account.to_dsg == 'Stage 4':
+                it_factor = 10
+                it_marks = 15
+            else:
+                it_factor = 10
+                it_marks = 20 
+                
+            # Summary of API II Category
+            api_2a=0
+            api_2a=api_2*account.ass_yr
+            
+            if (api_2a < 50):
+                api2_sts = "Min Score not attained"
+            else:        
+                api2_sts = "Criteria Satisfied"
+                api_t=api_t+1
+                
+                
+            # API III-A.  Journal Publication
+            tot_3a=0 
+            tot_3=0    
+            tot_3a=jrnl.aggregate(Sum('self_api_score'))
+            val=list(tot_3a.values())
+            tot_3=tot_3+val[0]
+            
+            # API III-B : Publications other than journal articles
+            tot_3b=0   
+            tot_3b=pub.aggregate(Sum('self_api_score'))
+            val=list(tot_3b.values())
+            tot_3=tot_3+val[0]
+            
+            
+            # API III-C (i):  Sponsored Project            
+            tot_3c=0   
+            tot_3c=res.aggregate(Sum('self_api_score'))
+            val=list(tot_3c.values())
+            tot_3=tot_3+val[0]
+            
+            # API III-C (ii):  Consultancy Project            
+            tot_3d=0   
+            tot_3d=cons.aggregate(Sum('self_api_score'))
+            val=list(tot_3d.values())
+            tot_3=tot_3+val[0]
+            
+            # API III-C (iii):  Projects Outcome/Output            
+            tot_3e=0   
+            tot_3e=prj.aggregate(Sum('self_api_score'))
+            val=list(tot_3e.values())
+            tot_3=tot_3+val[0]
+            
+            
+            # API III-D:  Research Guidance            
+            tot_3f=0   
+            tot_3f=res_guide.aggregate(Sum('self_api_score'))
+            val=list(tot_3f.values())
+            tot_3=tot_3+val[0]
+            
+            # API III-E : (i)  Fellowship / Award from Academic Bodies/Associations            
+            tot_3g=0   
+            tot_3g=fellow.aggregate(Sum('self_api_score'))
+            val=list(tot_3g.values())
+            tot_3=tot_3+val[0]
+            
+           
+            # API III-E : (ii) Invited Lecture / Paper presented            
+            tot_3h=0   
+            tot_3h=lec.aggregate(Sum('self_api_score'))
+            val=list(tot_3h.values())
+            tot_3=tot_3+val[0]
+
+            # API IIIE (iii) e-Learning Delivery Process/Material            
+            tot_3i=0   
+            tot_3i=elearn.aggregate(Sum('self_api_score'))
+            val=list(tot_3i.values())
+            tot_3=tot_3+val[0]
+            
+            tot_sts3=""
+            
+            # Summary of API III Category
+            if account.to_dsg == 'Stage 2':
+                if (tot_3 < 20) :
+                    tot_sts3 = "Min Score not attained"
+                else:
+                    tot_sts3 = "Criteria Satisfied"
+                    
+            if account.to_dsg == 'Stage 3':
+                if (tot_3 < 50) :
+                    tot_sts3 = "Min Score not attained"
+                else:
+                    tot_sts3 = "Criteria Satisfied"
+                    
+            if account.to_dsg == 'Stage 4':
+                if (tot_3 < 75) :
+                    tot_sts3 = "Min Score not attained"
+                else:
+                    tot_sts3 = "Criteria Satisfied"
+                    
+            if account.to_dsg == 'Stage 5':
+                if (tot_3 < 100) :
+                    tot_sts3 = "Min Score not attained"
+                else:
+                    tot_sts3 = "Criteria Satisfied"
+        
+            tot_2_3=0        
+            tot_2_3=api_2a+tot_3
+            
+            
+            context={}            
     
             if account :   
                         context['id'] = account.id
@@ -108,31 +283,68 @@ class ViewPDF(View):
                         context['pwd_link'] = account.pwd_link
                         context['agp'] = account.get_agp_display
                         context['dt_last_promo'] = account.dt_last_promo
-                        context['dt_eligibility'] = account.dt_last_promo
+                        context['dt_eligibility'] = account.dt_eligibility
                         context['addr_corres'] = account.addr_corres
                         context['addr_perm'] = account.addr_perm
                         context['mobile'] = account.mobile
                         context['highest_quali'] = account.get_highest_quali_display
+                        context['ass_yr'] = account.ass_yr
                         context['gender'] = account.get_gender_display
                         context['dt_ob'] = account.dt_ob
                         context['date_joined'] = account.date_joined
                         context['quali_year'] = account.quali_year
                         context['tot_experience'] = account.tot_experience
                         context['doc_link'] = account.doc_link                       
-                        
+                        context['pdf'] = account.pdf
                         context['academy'] = academy
                         context['research'] = research
                         context['prests'] = prests
                         context['curpost'] = curpost
                         context['teach'] = teach
                         context['orient'] = orient
-                            
-                        pdf = render_to_pdf('account/pdf_template.html', context)
+                        context['api1'] = api1
+                        context['dt_marks'] = dt_marks
+                        context['ed_marks'] = ed_marks
+                        context['it_marks'] = it_marks
+                        context['admin'] = admin
+                        context['api2'] = api2
+                        context['jrnl'] = jrnl
+                        context['pub'] = pub
+                        context['res'] = res
+                        context['cons'] = cons
+                        context['prj'] = prj
+                        context['res_guide'] = res_guide
+                        context['fellow'] = fellow
+                        context['lec'] = lec
+                        context['elearn'] = elearn
+                        context['api_1'] = api_1
+                        context['api_sts1'] = api_sts1
+                        context['api_2'] = api_2
+                        context['api_2a'] = api_2a
+                        context['api2_sts'] = api2_sts                       
+                        context['tot_3a'] = tot_3a
+                        context['tot_3b'] = tot_3b
+                        context['tot_3c'] = tot_3c
+                        context['tot_3d'] = tot_3d
+                        context['tot_3e'] = tot_3e
+                        context['tot_3f'] = tot_3f
+                        context['tot_3g'] = tot_3g
+                        context['tot_3h'] = tot_3h
+                        context['tot_3i'] = tot_3i
+                        context['tot_3'] = tot_3
+                        context['tot_sts3'] = tot_sts3
+                        context['tot_2_3'] = tot_2_3
                         
+                        pdf = render_to_pdf('account/pdf_template.html', context)
+                        #resp = HttpResponse(content_type='application/pdf',context)
+                        #result = generate_pdf('account/pdf_template.html', file_object=resp)
+                        #return result
                         return HttpResponse(pdf, content_type='application/pdf')
+                        
 
 
 id_var = 0 
+
 
 def register_view(request, *args, **kwargs):
     user = request.user
@@ -156,8 +368,21 @@ def register_view(request, *args, **kwargs):
             
             if destination:
                 return redirect(destination)
-            messages.success(request,'You have successfully signed up!')    
+            messages.success(request,'You have successfully signed up!')
+            
+            subject = 'Welcome to  JU CAS Application'
+            message = 'You have successfully registered to Jadavpur University CAS Application software!'
+
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [account.email],
+                fail_silently=False,
+            )
             return redirect("account:home", user_id=request.user.id)
+            
+            
         else:
             context['registration_form'] = form
                    
@@ -357,7 +582,7 @@ def cas_view(request, *args, **kwargs):
         return redirect(request.path)
         #return redirect("account:academy", user_id=account.id)
     
-
+@login_required
 def self_view(request, *args, **kwargs):
 
     if not request.user.is_authenticated:
@@ -365,13 +590,15 @@ def self_view(request, *args, **kwargs):
 
     user_id = kwargs.get("user_id")
     
-
     account = Account.objects.get(pk=user_id)
     user = request.user
     
+    if user != account.id:
+        HttpResponseForbidden('You cannot view what is not yours') #Or however you want to handle this
+ 
     global pk_var     
     pk_var=user_id
-     
+      
     
     context = {}
     context['pk_var'] = pk_var
@@ -1142,7 +1369,10 @@ def api1_view(request, *args, **kwargs):
         return redirect(request.path)
         
       
-    account = Account.objects.get(pk=user_id)
+    account = Account.objects.get(pk=user_id) # applicant row
+    act = Account.objects.get(pk=request.user.id) # admin row
+    admin=act.is_admin
+   
     
     if account.to_dsg == 'Stage 2' or account.to_dsg == 'Stage 3':
         api_factor = 7.50
@@ -1221,6 +1451,7 @@ def api1_view(request, *args, **kwargs):
                 'tot_marks':tot_marks,
                 'tot_self_api' : tot_self_api,
                 'tot_veri_api' : tot_veri_api,
+                'admin':admin
             }
         
         return render(request, "account/api_catg1.html", context)
@@ -1255,7 +1486,8 @@ def api2_view(request, *args, **kwargs):
         return redirect(request.path)
       
     account = Account.objects.get(pk=user_id)
-    
+    act = Account.objects.get(pk=request.user.id) # admin row
+    admin=act.is_admin
     
     api_factor = 10
     fba_marks=15
@@ -1310,6 +1542,7 @@ def api2_view(request, *args, **kwargs):
                 'tot_marks':tot_marks,
                 'tot_self_api' : tot_self_api,
                 'tot_veri_api' : tot_veri_api,
+                'admin':admin,
             }
         
         return render(request, "account/api_catg2.html", context)

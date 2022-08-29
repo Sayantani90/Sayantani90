@@ -83,8 +83,11 @@
                          
                
                 <th VALIGN=TOP>Self Appraisal Score</th>
-                <th VALIGN=TOP>Verified API Score</th>
-
+				
+				{% if admin %}
+					<th VALIGN=TOP>Verified API Score</th>
+				{% endif %}
+				
                 {% if user.is_applicant %}				
 					          <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
 				{% endif %}           
@@ -114,13 +117,15 @@
                 {% endif %}
                 
                             
-                <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+                <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
+					
 					<script>
 						var fell_score = fell_score + parseFloat({{item.self_api_score}});						
 					</script>
-				
-                <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
-
+					
+				{% if admin %}
+					<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+				{% endif %}
           
                  {% if user.is_applicant %}
                       <td><a style="font-weight:bolder;" name="edit-btn" class="text-information" href="{% url 'catg_3:fellow-award-edit' pk=item.id %}">Edit</a></td>
@@ -173,7 +178,9 @@
                          
                
                 <th VALIGN=TOP>Self Appraisal Score</th>
-                <th VALIGN=TOP>Verified API Score</th>
+				{% if admin %}
+					<th VALIGN=TOP>Verified API Score</th>
+				{% endif %}
 
                 {% if user.is_applicant %}				
 					          <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
@@ -192,7 +199,7 @@
                 
                 <td>{{ forloop.counter }}</td>
 				<td>{{item.get_invitation_type_display|default_if_none:"Blank"}}</td>
-        <td><textarea rows="3" cols="40" wrap="hard" readonly>{{item.title_lecture|default_if_none:"Blank"}}</textarea></td>
+				<td><textarea rows="3" cols="40" wrap="hard" readonly>{{item.title_lecture|default_if_none:"Blank"}}</textarea></td>
 				<td><textarea rows="3" cols="40" wrap="hard" readonly>{{item.seminer|default_if_none:"Blank"}}</textarea></td>
 				<td><textarea rows="3" cols="20" wrap="hard" readonly>{{item.organizer|default_if_none:"Blank"}}</textarea></td>
 				<td><textarea rows="3" cols="20" wrap="hard" readonly>{{item.venue|default_if_none:"Blank"}}</textarea></td>
@@ -206,13 +213,15 @@
                 {% endif %}
                 
                             
-                <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+                <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 				
-					<script>
+					 <script>
 						var lect_score = lect_score + parseFloat({{item.self_api_score}});						
 					</script>
-				
-                <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
+					
+				{% if admin %}
+					<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+				{% endif %}
 
           
                  {% if user.is_applicant %}
@@ -261,8 +270,11 @@
 				<th VALIGN=TOP style="text-align: center;">Name of the Program</th>
 				<th VALIGN=TOP style="text-align: center;">Document Link</th>
                 <th VALIGN=TOP>Self Appraisal Score</th>
-                <th VALIGN=TOP>Verified API Score</th>
-
+				
+				{% if admin %}
+					<th VALIGN=TOP>Verified API Score</th>
+				{% endif %}
+				
                 {% if user.is_applicant %}				
 					          <th  VALIGN=TOP colspan="2">&nbsp&nbsp&nbsp&nbspActions</th>
 				{% endif %}           
@@ -290,13 +302,15 @@
                 {% endif %}
                 
                             
-                <td>{{item.self_api_score|default_if_none:"Blank"}}</td>
+                <td style="text-align:center;">{{item.self_api_score|default_if_none:"Blank"}}</td>
 				
 					<script>
 						var elearn_score = elearn_score + parseFloat({{item.self_api_score}});						
 					</script>
-				
-                <td>{{item.veri_api_score|default_if_none:"Blank"}}</td>
+					
+				{% if admin %}
+					<td style="text-align:center;">{{item.veri_api_score|default_if_none:"Blank"}}</td>
+				{% endif %}
 
           
                  {% if user.is_applicant %}
@@ -316,8 +330,8 @@
 			<div class="row" >
 				<label id="elearn_score" style="font-size:20px;font-weight:bold;"></label>			
 				<a href="{% url 'catg_3:resch-guide-view' user_id=pk_var %}" style="margin-left:12px;width:5%;height:50%;font-weight:bold;margin-right:20px;font-size:2rem;" class="btn btn-primary btn-lg">&laquo;</a>
-				<a href="{% url 'account:home' user_id=pk_var %}" style="float:right;width:5%;font-weight:bold;font-size:2rem;" class="btn btn-success btn-lg">&raquo;</a>
-				<a href="{% url 'catg_3:api-summary-view' user_id=pk_var %}" style="margin-left:12px;float:right;width:20%;font-weight:bold;font-size:2rem;" class="btn btn-info btn-lg">API Summary</a>
+		
+				<a href="{% url 'catg_3:api-summary-view' user_id=pk_var %}" style="margin-left:12px;float:right;width:20%;font-weight:bold;font-size:2rem;" class="btn btn-success btn-lg">API Summary</a>
 			</div>
 
 	

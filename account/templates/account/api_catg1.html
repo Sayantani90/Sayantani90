@@ -41,10 +41,12 @@
             <th>Max Marks</th>
             <th>Hours spent per<br>academic year</th>
             <th style="display:none;">Actual score</th>
-            <th>Self Appraisal Score</th>            
-            <th>Verified API Score</th>
+            <th>Self Appraisal Score</th> 
+			{% if not user.is_applicant %}			
+				<th>Verified API Score</th>
+			{% endif %}	
 			<th>Doc.Link(if any)</th>
-			<th></th>
+			<th>Link Status</th>
         </tr>    
 
 
@@ -53,11 +55,28 @@
 		<td>1.</td>
         <td>Direct Teaching<br>(self declaration)</td>
         <td>{{dt_marks}}</td>
-        <td>{{form.direct_teaching}}</td>
+		{% if not user.is_applicant %}
+			<td>{{form.direct_teaching}}</td>
+			<script>
+			 $('input[name=direct_teaching]').attr('readonly', true); 
+			</script>
+		{% else %}	
+		    <td>{{form.direct_teaching}}</td>
+		{% endif %}		
         <td style="display:none;">{{form.actl_api_dt}}</td>
 		<td>{{form.self_api_dt}}</td>
-		<td>{{form.veri_api_dt}}</td>
-		<td>{{form.url_dt}}</td>
+		{% if admin %}
+			<td>{{form.veri_api_dt}}</td>
+			<script>
+			 $('input[name=veri_api_dt]').attr('readonly', false); 
+			</script>
+		{% else %}	
+			<td style="display:none;">{{form.veri_api_dt}}</td>
+		{% endif %}
+		
+		{% if not admin %}
+			<td>{{form.url_dt}}</td>
+		{% endif %}	
 		
 		{% if api1.url_dt %}
 			<td><a name="url_dt"  id="id_url_dt" href="{{api1.url_dt}}" target="_blank"  style="max-width:100%;" class="btn btn-primary ">View</a></td>							
@@ -93,12 +112,28 @@
         <td>2.</td>
         <td>Examination duties<br>(question paper setting,<br> Invigilation, evaluation of <br> answer scripts etc.)<br> (self declaration)</td>
         <td>{{ed_marks}}</td>
-        <td>{{form.exam_duties}}</td>
+		{% if not user.is_applicant %}
+			<td>{{form.exam_duties}}</td>
+			<script>
+			 $('input[name=exam_duties]').attr('readonly', true); 
+			</script>
+		{% else %}	
+			<td>{{form.exam_duties}}</td>
+		{% endif %}
         <td style="display:none;">{{form.actl_api_ed}}</td>
         <td>{{form.self_api_ed}}</td>
-		<td>{{form.veri_api_ed}}</td>
-		<td>{{form.url_ed}}</td>
+		{% if not user.is_applicant %}
+			<td>{{form.veri_api_ed}}</td>
+			<script>
+			 $('input[name=veri_api_ed]').attr('readonly', false); 
+			</script>
+		{% else %}
+			<td style="display:none;">{{form.veri_api_ed}}</td>
+		{% endif %}
 		
+		{% if not admin %}
+			<td>{{form.url_ed}}</td>
+		{% endif %}
         
 		{% if api1.url_ed %}
 			<td><a name="url_ed"  id="id_url_ed" href="{{api1.url_ed}}" target="_blank"  style="max-width:100%;" class="btn btn-primary ">View</a></td>							
@@ -136,12 +171,30 @@
             <br>(self declaration)
         </td>
         <td>{{it_marks}}</td>
-        <td>{{form.innovating_teaching}}</td>
+		{% if not user.is_applicant %}
+			<td>{{form.innovating_teaching}}</td>
+			<script>
+			 $('input[name=innovating_teaching]').attr('readonly', true); 
+			</script>
+		{% else %}
+			<td>{{form.innovating_teaching}}</td>
+		{% endif %}	
         <td style="display:none;">{{form.actl_api_it}}</td>
         <td>{{form.self_api_it}}</td>
-		<td>{{form.veri_api_it}}</td>
-		<td>{{form.url_it}}</td>
-        
+		
+		{% if not user.is_applicant %}
+			<td>{{form.veri_api_it}}</td>
+			<script>
+			 $('input[name=veri_api_it]').attr('readonly', false); 
+			</script>			
+		{% else %}	
+			<td style="display:none;">{{form.veri_api_it}}</td>
+		{% endif %}
+		
+		{% if not admin %}
+			<td>{{form.url_it}}</td>
+		{% endif %}
+		
 		{% if api1.url_it %}
 			<td><a name="url_it"  id="id_url_it" href="{{api1.url_it}}" target="_blank"  style="max-width:100%;" class="btn btn-primary ">View</a></td>							
 		{% else %}
@@ -161,8 +214,11 @@
         <td style="display:none;"></td>
         <td></td>               
         <td style="padding-left:25px;">{{tot_self_api}}</td>
-        
-        <td style="padding-left:25px;">{{tot_veri_api}}</td>
+        {% if not user.is_applicant %}
+			<td style="padding-left:25px;">{{tot_veri_api}}</td>
+		{% else %}
+			<td style="padding-left:25px; display:none;">{{tot_veri_api}}</td>
+		{% endif %}
 		<td></td>
     </tr>
 	
@@ -202,7 +258,9 @@
         alert("Self Appraisal Score is : " + tot_self);
        
     }
-
+	
+	
+	
     var tot_self_dt=parseFloat(document.getElementById("id_self_api_dt").value);
     var tot_self_ed=parseFloat(document.getElementById("id_self_api_ed").value);
     var tot_self_it=parseFloat(document.getElementById("id_self_api_it").value);
@@ -235,7 +293,7 @@
 
     }
 
-    $(document).ready(function(){     
+    $(document).ready(function(){
     $('#dt_hrs').change(function(event){
             var name = $(this).val();
             var factor = $('#factor').text();

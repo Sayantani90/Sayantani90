@@ -5,6 +5,8 @@
 <title>JU CAS Portal</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="{% static 'image/favicon.png' %}"> 
+
 
 <link rel="stylesheet" href="{% static 'w3css/w3.css' %}">
 <link rel="stylesheet" href="{% static 'w3css/googleapis.css' %}">
@@ -22,7 +24,17 @@
 
 <style>
 html,body,h1,h2,h3 {font-family: "Raleway", sans-serif}
+/* Chrome, Safari, Edge, Opera: hide arrows fom number input */
+input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+			  -webkit-appearance: none;
+			  margin: 0;
+			}
 
+/* Firefox:hide arrows fom number input */
+			input[type=number] {
+			  -moz-appearance: textfield;
+}
 #topbar{
   position: fixed; /* Set the navbar to fixed position */
   top: 0; /* Position the navbar at the top of the page */
@@ -55,6 +67,9 @@ body {
     display: flex;
     flex-direction: column;
 }
+.heading{
+  white-space: nowrap;
+}
 
 
 
@@ -70,6 +85,7 @@ body {
   <span class="w3-bar-item " style="padding-left:20px; padding-top:5px;">
     <img  src="{% static 'image/ju_logo.png' %}" alt="Ju Logo" width="280" height="60" style="float:left;"> 
   </span>
+  
 
   <h3 class="heading w3-text-shadow"><strong>
     Career Advancement Scheme (CAS) Portal For Teachers</strong>

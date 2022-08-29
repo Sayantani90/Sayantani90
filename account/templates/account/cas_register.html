@@ -16,6 +16,7 @@
            margin: 0; 
     }
 	
+	
 	a {
 		text-decoration: none;
 		display: inline-block;
@@ -52,7 +53,7 @@
 			width: 92%;
 			max-width: 1200px;
 			padding: 15px;
-			height: 1470px;
+			height: 100%;
 			margin-top:10px;
 			margin-left:60px;			 
 			margin-bottom:10px;
@@ -90,7 +91,7 @@
 			font-size: 20px;
 		}
 		td{
-			width:400px;
+			width:550px;
 			height:10px;			
 		}
 		
@@ -143,7 +144,7 @@
 						<a href="{% url 'account:home' user_id=request.user.id %}" class="previous" style="text-decoration:none;float:right;"><i class="fa fa-window-close" style="font-size:36px"></i></a>
 					{% endif %}
 					</h2>
-					<hr>
+					<hr style="height:2px">
 			
 				<div>
 					{% if not user.is_applicant %}
@@ -155,15 +156,18 @@
 							{{accounts.get_to_dsg_display}}
 						</h4>
 					{% else %}							
-						<h4 style="color:black;margin-left:10px;font-weight:bold;">
-						Stage / Designation :&nbsp&nbsp&nbsp&nbsp From :<span>*</span>
-						{{form.from_dsg}}&nbsp&nbsp&nbsp To : <span>*</span>
+						<h4 style="color:black;margin-left:60px;font-weight:bold;">
+						Stage / Designation :&nbsp&nbsp&nbsp&nbsp From : <span>*</span>
+						{{form.from_dsg}}&nbsp&nbsp&nbsp <br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						To : <span>*</span>
 						<label>{{form.to_dsg}}</label></h4>
 					{% endif %}
 
 				</div>
 				
-
+				<hr>
 				<div class="container">
 					<h4>
 					<table  class="table table-striped borderless" style="width:87%;">	 					
@@ -193,7 +197,7 @@
 							
 								{% if not user.is_applicant %}
 								<td style="text-transform:uppercase;">
-										{% comment %} {{accounts.parent.label_tag}} {% endcomment %}
+										
 										{{accounts.username}}										
 								</td>		
 								{% else %}
@@ -207,7 +211,7 @@
 							<th>3. Father's Name / Mother's Name <span>*</span></th>
 							{% if not user.is_applicant %}
 								<td style="text-transform:uppercase;">
-								{{accounts.parent.label_tag}}
+								
 								{{accounts.parent}}
 								</td>
 							{% else %}							
@@ -218,7 +222,7 @@
 							<th>4. Date of Birth<span>*</span></th>
 							<td>
 							{% if not user.is_applicant %}
-								{{accounts.dt_ob.label_tag}}
+								
 								{{accounts.dt_ob|date:"d-m-Y" }}
 							{% else %}	
 								{{form.dt_ob}}
@@ -230,7 +234,7 @@
 							</th>
 							<td>
 								{% if not user.is_applicant %}
-									{{accounts.catg.label_tag}}
+									
 									{{accounts.get_catg_display}}&nbsp&nbsp&nbsp&nbsp
 
 									{% if accounts.doc_link %}       
@@ -238,8 +242,7 @@
 									{% else %}
 										{% if accounts.catg != 'cast-5' %}
 					    					<label  name="no_doc"  class="form-control" style="float:right;max-width:50%;color:red;" readonly >Ask to attach Link</label>
-										{% else %}
-											<label  name="no_doc" class="form-control" style="float:right;max-width:40%;color:black;" readonly >None</label>
+										
 										{% endif %}
 									{% endif %}	
 									
@@ -270,8 +273,15 @@
 							<td >
 							
 							{% if not user.is_applicant %}
-									{{accounts.is_pwd.label_tag}}
-									{{accounts.is_pwd}}
+							
+							
+									{% if accounts.pwd_link %}
+										Yes
+										<a name="pwd_link"  id="id_pwd_link" href="{{accounts.pwd_link}}" target="_blank"  style="vertical-align:top;max-width:45%;padding-top:0;height:30px;margin-left:14px;margin-bottom:5px;" class="btn btn-primary ">Doc Attached</a>									
+									{% else %}
+										No
+									{% endif %}
+									
 									
 							{% else %}
 									
@@ -379,22 +389,31 @@
 						<tr>
 							<th>13. Assessment Period (in years)</th>
 							<td>
+							{% if not user.is_applicant %}
+								{{accounts.ass_yr}}&nbspyears
+							{% else %}	
 								{{form.ass_yr}}
+							{% endif %}	
 							</td>							
 						</tr>
 						<tr>
 							<th>14. Address for correspondence<span>*</span></th>
 							{% if not user.is_applicant %}
 								<td style="text-transform:uppercase;">
-								{{accounts.addr_corres.label_tag}}
+								
 								{{accounts.addr_corres|linebreaks}}
+								
 								</td>
 							{% else %}							
 								<td>{{form.addr_corres}}</td>
 							{% endif %}
 						</tr>
 						<tr>
-							<th>15. Permanent Address (Same as above){{form.is_carry}}</th>
+							<th>15. Permanent Address (Same as above)
+								{% if user.is_applicant %}
+									{{form.is_carry}}
+								{% endif %}
+							</th>
 							{% if not user.is_applicant %}
 								<td style="text-transform:uppercase;">
 								{{accounts.addr_perm.label_tag}}
@@ -428,14 +447,24 @@
 								{% endif %}
 							</td>			
 						</tr>
-						
+						<tr>
+							<th>18. Upload Signature(JPG/PNG)</th>
+							<td>
+								{% if not user.is_applicant %}
+										{{accounts.pdf.label_tag}}
+										{{accounts.pdf}}
+								{% else %}
+										{{form.pdf}}
+								{% endif %}
+							</td>			
+						</tr>
 						
 					</table>
 					
 						<div >
 						{% if not user.is_applicant %}
-							<a href="{% url 'account:home' user_id=pk_var %}" style="margin-left:12px;width:20%;font-weight:bold;margin-right:20px;" class="btn btn-primary btn-lg">&laquo; Previous</a>
-							<a href="{% url 'account:academy' user_id=pk_var %}" style="float:right;width:20%;font-weight:bold;" class="btn btn-success btn-lg">Next &raquo;</a>
+							<a href="{% url 'account:home' user_id=pk_var %}" style="padding:0;width:5%;font-weight:bold;font-size:2rem;" class="btn btn-primary btn-lg">&laquo;</a>
+							<a href="{% url 'account:academy' user_id=pk_var  %}" style="padding:0;width:5%;font-weight:bold;font-size:2rem;" class="btn btn-success btn-lg">&raquo;</a>
 						{% else %}
 						    <div style="margin-left:12px;height:5%;background-color:white;width:85%;">
 								<a href="{% url 'account:home' user_id=pk_var %}" style="padding:0;width:5%;font-weight:bold;font-size:2rem;" class="btn btn-primary btn-lg">&laquo;</a>
