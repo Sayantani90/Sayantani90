@@ -1,6 +1,6 @@
 ### JU CAS 👋
 
-<!--
+
 **Sayantani90/Sayantani90** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
  1. Project's Title : JU Career Advancement Scheme (CAS) Online Application Portal
@@ -17,4 +17,4 @@
 - 📫 
 - 😄 
 - ⚡ 
--->
+
